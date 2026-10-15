@@ -1,8 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import styles from "./VideoPlayer.module.scss";
-
 interface VideoPlayerProps {
   src: string;
   title: string;
@@ -28,6 +26,10 @@ export default function VideoPlayer({
   const [isMuted, setIsMuted] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const controlsTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const iconButtonClass =
+    "flex shrink-0 items-center justify-center rounded-[var(--radius-md)] p-[var(--space-1)] text-white transition-colors hover:bg-[rgba(255,255,255,0.2)] focus-visible:outline-white [&_svg]:size-5";
+  const rangeClass =
+    "h-1 w-full cursor-pointer appearance-none rounded-full bg-[linear-gradient(to_right,#6abd8a_var(--pct),rgba(255,255,255,0.35)_var(--pct))] [&::-webkit-slider-thumb]:size-[14px] [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-[0_1px_4px_rgba(0,0,0,0.4)] [&::-webkit-slider-thumb]:transition-transform hover:[&::-webkit-slider-thumb]:scale-[1.3] [&::-moz-range-thumb]:size-[14px] [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-white focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2";
 
   // ── Helpers ──────────────────────────────────────────────────────────────
 
@@ -157,7 +159,6 @@ export default function VideoPlayer({
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const progressPercent = duration ? (currentTime / duration) * 100 : 0;
@@ -165,7 +166,7 @@ export default function VideoPlayer({
   return (
     <div
       ref={containerRef}
-      className={`${styles.player} ${isTheater ? styles.theater : ""}`}
+      className={`player relative aspect-video w-full overflow-hidden bg-black max-lg:sticky max-lg:top-0 max-lg:z-[80] max-lg:max-h-[240px] lg:h-[527px] lg:w-[799px] lg:shrink-0 lg:aspect-auto lg:rounded-[var(--radius-sm)] ${isTheater ? "lg:h-auto lg:aspect-video lg:w-full" : ""}`}
       onMouseMove={handleMouseMove}
       onMouseLeave={() => isPlaying && setShowControls(false)}
       aria-label={`مشغل الفيديو: ${title}`}
@@ -173,7 +174,7 @@ export default function VideoPlayer({
       {/* Video element */}
       <video
         ref={videoRef}
-        className={styles.video}
+        className="block size-full cursor-pointer object-cover"
         src={src}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
@@ -185,7 +186,7 @@ export default function VideoPlayer({
 
       {/* Play/Pause big overlay button (click area) */}
       <button
-        className={`${styles.playOverlay} ${isPlaying ? styles.hidden : ""}`}
+        className={`absolute inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.25)] text-white transition-opacity [&_svg]:size-14 [&_svg]:[filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.5))] lg:[&_svg]:size-[72px] ${isPlaying ? "pointer-events-none opacity-0" : ""}`}
         onClick={handlePlayPause}
         aria-label={isPlaying ? "إيقاف مؤقت" : "تشغيل"}
         tabIndex={-1}
@@ -199,12 +200,12 @@ export default function VideoPlayer({
 
       {/* Controls bar */}
       <div
-        className={`${styles.controls} ${showControls ? styles.visible : ""}`}
+        className={`pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.75)] px-[var(--space-4)] py-[var(--space-3)] opacity-0 transition-opacity ${showControls ? "pointer-events-auto opacity-100" : ""}`}
         role="group"
         aria-label="التحكم في الفيديو"
       >
         {/* Progress bar */}
-        <div className={styles.progressWrapper}>
+        <div className="mb-[var(--space-2)]">
           <input
             ref={progressRef}
             type="range"
@@ -213,7 +214,7 @@ export default function VideoPlayer({
             step={0.1}
             value={currentTime}
             onChange={handleSeek}
-            className={styles.progressBar}
+            className={rangeClass}
             aria-label="شريط التقدم"
             style={
               { "--pct": `${progressPercent}%` } as React.CSSProperties
@@ -222,14 +223,14 @@ export default function VideoPlayer({
         </div>
 
         {/* Bottom controls row */}
-        <div className={styles.controlsRow}>
+        <div className="flex items-center justify-between gap-[var(--space-2)]">
           {/* Left group */}
-          <div className={styles.controlsLeft}>
+          <div className="flex items-center gap-[var(--space-2)]">
             {/* Play/Pause */}
             <button
               onClick={handlePlayPause}
               aria-label={isPlaying ? "إيقاف مؤقت" : "تشغيل"}
-              className={styles.iconBtn}
+              className={iconButtonClass}
             >
               {isPlaying ? (
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -253,7 +254,7 @@ export default function VideoPlayer({
             <button
               onClick={handleMuteToggle}
               aria-label={isMuted ? "تفعيل الصوت" : "كتم الصوت"}
-              className={styles.iconBtn}
+              className={iconButtonClass}
             >
               {isMuted || volume === 0 ? (
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -304,7 +305,7 @@ export default function VideoPlayer({
               step={0.05}
               value={isMuted ? 0 : volume}
               onChange={handleVolumeChange}
-              className={`${styles.progressBar} ${styles.volumeSlider}`}
+              className={`${rangeClass} w-[72px] shrink-0 max-lg:hidden`}
               aria-label="مستوى الصوت"
               style={
                 {
@@ -314,18 +315,18 @@ export default function VideoPlayer({
             />
 
             {/* Time */}
-            <time className={styles.time} dateTime={`PT${Math.floor(currentTime)}S`}>
+            <time className="whitespace-nowrap font-[family-name:var(--font-latin-body)] text-xs font-medium text-white" dateTime={`PT${Math.floor(currentTime)}S`} dir="ltr">
               {formatTime(currentTime)} / {formatTime(duration)}
             </time>
           </div>
 
           {/* Right group */}
-          <div className={styles.controlsRight}>
+          <div className="flex items-center gap-[var(--space-2)]">
             {/* Theater mode – desktop only */}
             <button
               onClick={handleTheater}
               aria-label={isTheater ? "وضع عادي" : "وضع المسرح"}
-              className={`${styles.iconBtn} ${styles.theaterBtn}`}
+              className={`${iconButtonClass} max-lg:hidden`}
               aria-pressed={isTheater}
             >
               {isTheater ? (
@@ -369,7 +370,7 @@ export default function VideoPlayer({
             <button
               onClick={handleFullscreen}
               aria-label="ملء الشاشة"
-              className={styles.iconBtn}
+              className={iconButtonClass}
             >
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path

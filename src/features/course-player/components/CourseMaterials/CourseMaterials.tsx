@@ -4,8 +4,6 @@ import { useState } from "react";
 import type { CourseMaterial, Exam } from "../../models";
 import PdfModal from "../PdfModal/PdfModal";
 import ExamModal from "../ExamModal/ExamModal";
-import styles from "./CourseMaterials.module.scss";
-
 interface CourseMaterialsProps {
   materials: CourseMaterial[];
   exam: Exam;
@@ -67,26 +65,26 @@ export default function CourseMaterials({
 
   return (
     <>
-      <section aria-label="مواد الكورس" className={styles.section}>
-        <h2 className={styles.heading}>Course Materials</h2>
+      <section aria-label="مواد الكورس" className="rounded-[var(--radius-sm)] bg-[var(--color-surface-card)] px-[var(--space-6)] py-[var(--space-8)] shadow-[var(--shadow-card)]">
+        <h2 className="mb-[var(--space-5)] font-[family-name:var(--font-latin)] text-[1.2rem] font-semibold text-[var(--color-text-primary)] lg:text-2xl">Course Materials</h2>
 
-        <ul className={styles.list} role="list">
+        <ul className="flex flex-col gap-[var(--space-3)]" role="list">
           {materials.map((mat) => (
             <li key={mat.id}>
               <button
-                className={styles.item}
+                className="flex w-full items-center gap-[var(--space-4)] rounded-[var(--radius-md)] border border-[rgba(0,0,0,0.1)] bg-[var(--color-surface-card)] px-[var(--space-5)] py-[var(--space-4)] text-start transition-[background-color,box-shadow,transform] hover:-translate-y-px hover:bg-[var(--color-surface)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
                 onClick={() => handleMaterial(mat)}
                 aria-label={`${mat.title} – ${typeLabel[mat.type] ?? mat.type}`}
               >
-                <span className={`${styles.typeIcon} ${styles[mat.type]}`}>
+                <span className={`flex size-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] [&_svg]:size-5 ${mat.type === "pdf" ? "bg-[#fff0f0] text-[#e71b1b]" : mat.type === "exam" ? "bg-[#f0f4ff] text-[var(--color-brand-primary)]" : mat.type === "link" ? "bg-[#f0fff4] text-[#2d8a4e]" : "bg-[#fff8f0] text-[#e07b1b]"}`}>
                   {typeIcon[mat.type]}
                 </span>
-                <span className={styles.itemContent}>
-                  <span className={styles.itemTitle}>{mat.title}</span>
-                  <span className={styles.itemType}>{typeLabel[mat.type]}</span>
+                <span className="flex flex-1 flex-col gap-0.5">
+                  <span className="font-[family-name:var(--font-arabic)] text-[0.9rem] font-light text-[var(--color-text-secondary)]">{mat.title}</span>
+                  <span className="font-[family-name:var(--font-latin)] text-xs font-medium text-[var(--color-text-muted)]">{typeLabel[mat.type]}</span>
                 </span>
-                <span className={styles.arrow} aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <span className="flex text-[var(--color-text-muted)]" aria-hidden="true">
+                  <svg className="size-[18px] rtl:scale-x-[-1]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <polyline points="15 18 9 12 15 6" />
                   </svg>
                 </span>

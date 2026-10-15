@@ -7,8 +7,6 @@ import type {
   PerformanceTier,
   CourseProgress,
 } from "../../models";
-import styles from "./LeaderboardModal.module.scss";
-
 interface LeaderboardModalProps {
   courseName: string;
   entries: LeaderboardEntry[];
@@ -77,35 +75,35 @@ export default function LeaderboardModal({
         role="dialog"
         aria-modal="true"
         aria-label="الليدر بورد"
-        className={styles.dialog}
+        className="flex max-h-[90vh] w-[min(96vw,480px)] flex-col overflow-hidden rounded-[var(--radius-lg)] bg-[var(--color-surface-card)] shadow-[var(--shadow-modal)] animate-[slideUp_var(--transition-base)_both]"
       >
         {/* Header */}
-        <div className={styles.header}>
+        <div className="flex shrink-0 items-center justify-between border-b border-[var(--color-border)] bg-gradient-to-br from-[var(--color-brand-primary)] to-[var(--color-brand-accent)] px-[var(--space-5)] py-[var(--space-4)]">
           <button
             ref={closeRef}
             onClick={onClose}
             aria-label="إغلاق"
-            className={styles.closeBtn}
+            className="flex size-9 items-center justify-center rounded-[var(--radius-md)] text-[rgba(255,255,255,0.8)] transition-colors hover:bg-[rgba(255,255,255,0.15)] hover:text-white [&_svg]:size-5"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
-          <div className={styles.titleBlock}>
-            <span className={styles.courseName}>{courseName}</span>
-            <span className={styles.title}>Leaderboard</span>
+          <div className="flex flex-col items-end gap-0.5">
+            <span className="font-[family-name:var(--font-arabic)] text-xs font-light text-[rgba(255,255,255,0.75)]">{courseName}</span>
+            <span className="font-[family-name:var(--font-latin)] text-[1.2rem] font-semibold tracking-[-0.01em] text-white">Leaderboard</span>
           </div>
         </div>
 
         {/* Motivational message */}
-        <div className={styles.motivSection} aria-live="polite">
-          <p className={styles.motivMsg}>{motivMessage} 💪</p>
+        <div className="shrink-0 border-b border-[var(--color-border-light)] bg-[rgba(24,37,120,0.04)] p-[var(--space-5)]" aria-live="polite">
+          <p className="text-right font-[family-name:var(--font-arabic)] text-sm font-light leading-[1.7] text-[var(--color-brand-dark)]">{motivMessage} 💪</p>
         </div>
 
         {/* Table */}
-        <div className={styles.body}>
-          <table className={styles.table} aria-label="ترتيب الطلاب">
+        <div className="flex-1 overflow-y-auto">
+          <table className="w-full border-collapse [&_thead_tr]:border-b [&_thead_tr]:border-[var(--color-border)] [&_thead_tr]:bg-[var(--color-surface)] [&_th]:px-[var(--space-4)] [&_th]:py-[var(--space-3)] [&_th]:text-right [&_th]:font-[family-name:var(--font-arabic)] [&_th]:text-xs [&_th]:font-bold [&_th]:uppercase [&_th]:tracking-[0.04em] [&_th]:text-[var(--color-text-muted)] [&_td]:border-b [&_td]:border-[var(--color-border-light)] [&_td]:px-[var(--space-4)] [&_td]:py-[var(--space-3)] [&_td]:align-middle [&_td]:font-[family-name:var(--font-arabic)] [&_td]:text-sm [&_td]:font-light [&_td]:text-[var(--color-text-secondary)] [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-[var(--color-surface)]" aria-label="ترتيب الطلاب">
             <thead>
               <tr>
                 <th scope="col">الترتيب</th>
@@ -117,28 +115,30 @@ export default function LeaderboardModal({
               {entries.map((entry) => (
                 <tr
                   key={entry.rank}
-                  className={entry.isCurrentStudent ? styles.highlight : ""}
+                  className={entry.isCurrentStudent ? "[&>td]:!font-bold [&>td]:!text-[var(--color-brand-primary)] !bg-[rgba(24,37,120,0.05)] hover:!bg-[rgba(24,37,120,0.08)] [&_.score]:!text-[var(--color-brand-primary)]" : ""}
                   aria-label={
                     entry.isCurrentStudent ? "أنت – مستواك الحالي" : undefined
                   }
                 >
                   <td>
                     {entry.rank <= 3 ? (
-                      <span className={`${styles.medal} ${styles[`medal${entry.rank}`]}`} aria-label={`المركز ${entry.rank}`}>
+                      <span className="inline-block text-xl" aria-label={`المركز ${entry.rank}`}>
                         {entry.rank === 1 ? "🥇" : entry.rank === 2 ? "🥈" : "🥉"}
                       </span>
                     ) : (
-                      <span className={styles.rankNum}>{entry.rank}</span>
-                    )}
-                  </td>
-                  <td className={styles.nameCell}>
-                    {entry.name}
-                    {entry.isCurrentStudent && (
-                      <span className={styles.youBadge}>أنت</span>
+                      <span className="font-[family-name:var(--font-latin)] text-sm font-medium text-[var(--color-text-muted)]">{entry.rank}</span>
                     )}
                   </td>
                   <td>
-                    <span className={styles.score}>{entry.score}</span>
+                    <span className="flex items-center gap-[var(--space-2)]">
+                    {entry.name}
+                    {entry.isCurrentStudent && (
+                      <span className="rounded-full bg-[rgba(24,37,120,0.1)] px-[var(--space-2)] py-px font-[family-name:var(--font-arabic)] text-[0.65rem] font-bold text-[var(--color-brand-primary)]">أنت</span>
+                    )}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="font-[family-name:var(--font-latin)] text-sm font-semibold text-[var(--color-text-secondary)]">{entry.score}</span>
                   </td>
                 </tr>
               ))}

@@ -1,7 +1,5 @@
 "use client";
 
-import styles from "./ActionBar.module.scss";
-
 interface ActionBarProps {
   onAskQuestion: () => void;
   onLeaderboard: () => void;
@@ -20,18 +18,18 @@ export default function ActionBar({
 
   return (
     <nav
-      className={styles.bar}
+      className="w-full border-b border-[var(--color-border)] bg-[var(--color-surface)]"
       aria-label="أدوات الكورس"
       role="navigation"
     >
-      <div className={styles.inner}>
+      <div className="mx-auto flex max-w-[1304px] items-stretch px-[var(--space-1)] lg:gap-[var(--space-2)] lg:px-[var(--space-6)]">
         {/* Curriculum */}
         <button
-          className={styles.action}
+          className="group relative flex flex-1 flex-col items-center justify-center gap-[var(--space-1)] rounded-[var(--radius-md)] px-[var(--space-4)] py-[var(--space-3)] text-xs font-[family-name:var(--font-arabic)] font-light text-[var(--color-text-muted)] transition-colors hover:bg-[rgba(24,37,120,0.05)] hover:text-[var(--color-brand-primary)] after:absolute after:inset-x-1/4 after:bottom-0 after:h-0.5 after:scale-x-0 after:rounded-t-full after:bg-[var(--color-brand-primary)] after:transition-transform hover:after:scale-x-100 lg:flex-row lg:flex-none lg:gap-[var(--space-2)] lg:px-[var(--space-5)] lg:py-[var(--space-4)] lg:text-sm"
           onClick={() => scrollTo("curriculum")}
           aria-label="انتقل إلى المنهج الدراسي"
         >
-          <span className={styles.icon} aria-hidden="true">
+          <span className="flex [&_svg]:size-5" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="3" y="3" width="18" height="18" rx="2" />
               <line x1="3" y1="9" x2="21" y2="9" />
@@ -39,53 +37,53 @@ export default function ActionBar({
               <line x1="9" y1="9" x2="9" y2="21" />
             </svg>
           </span>
-          <span className={styles.label}>المنهج</span>
+          <span className="leading-none">المنهج</span>
         </button>
 
         {/* Comments */}
         <button
-          className={styles.action}
+          className="group relative flex flex-1 flex-col items-center justify-center gap-[var(--space-1)] rounded-[var(--radius-md)] px-[var(--space-4)] py-[var(--space-3)] text-xs font-[family-name:var(--font-arabic)] font-light text-[var(--color-text-muted)] transition-colors hover:bg-[rgba(24,37,120,0.05)] hover:text-[var(--color-brand-primary)] after:absolute after:inset-x-1/4 after:bottom-0 after:h-0.5 after:scale-x-0 after:rounded-t-full after:bg-[var(--color-brand-primary)] after:transition-transform hover:after:scale-x-100 lg:flex-row lg:flex-none lg:gap-[var(--space-2)] lg:px-[var(--space-5)] lg:py-[var(--space-4)] lg:text-sm"
           onClick={() => scrollTo("comments")}
           aria-label="انتقل إلى التعليقات"
         >
-          <span className={styles.icon} aria-hidden="true">
+          <span className="flex [&_svg]:size-5" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
           </span>
-          <span className={styles.label}>التعليقات</span>
+          <span className="leading-none">التعليقات</span>
         </button>
 
         {/* Ask a question */}
         <button
-          className={styles.action}
+          className="group relative flex flex-1 flex-col items-center justify-center gap-[var(--space-1)] rounded-[var(--radius-md)] px-[var(--space-4)] py-[var(--space-3)] text-xs font-[family-name:var(--font-arabic)] font-light text-[var(--color-text-muted)] transition-colors hover:bg-[rgba(24,37,120,0.05)] hover:text-[var(--color-brand-primary)] after:absolute after:inset-x-1/4 after:bottom-0 after:h-0.5 after:scale-x-0 after:rounded-t-full after:bg-[var(--color-brand-primary)] after:transition-transform hover:after:scale-x-100 lg:flex-row lg:flex-none lg:gap-[var(--space-2)] lg:px-[var(--space-5)] lg:py-[var(--space-4)] lg:text-sm"
           onClick={onAskQuestion}
           aria-label="اسأل سؤالاً"
           aria-haspopup="dialog"
         >
-          <span className={styles.icon} aria-hidden="true">
+          <span className="flex [&_svg]:size-5" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="12" r="10" />
               <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
               <line x1="12" y1="17" x2="12.01" y2="17" strokeWidth="3" strokeLinecap="round" />
             </svg>
           </span>
-          <span className={styles.label}>اسأل سؤال</span>
+          <span className="leading-none">اسأل سؤال</span>
         </button>
 
         {/* Leaderboard */}
         <button
-          className={styles.action}
+          className="group relative flex flex-1 flex-col items-center justify-center gap-[var(--space-1)] rounded-[var(--radius-md)] px-[var(--space-4)] py-[var(--space-3)] text-xs font-[family-name:var(--font-arabic)] font-light text-[var(--color-text-muted)] transition-colors hover:bg-[rgba(24,37,120,0.05)] hover:text-[var(--color-brand-primary)] after:absolute after:inset-x-1/4 after:bottom-0 after:h-0.5 after:scale-x-0 after:rounded-t-full after:bg-[var(--color-brand-primary)] after:transition-transform hover:after:scale-x-100 lg:flex-row lg:flex-none lg:gap-[var(--space-2)] lg:px-[var(--space-5)] lg:py-[var(--space-4)] lg:text-sm"
           onClick={onLeaderboard}
           aria-label="الليدر بورد"
           aria-haspopup="dialog"
         >
-          <span className={styles.icon} aria-hidden="true">
+          <span className="flex [&_svg]:size-5" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
             </svg>
           </span>
-          <span className={styles.label}>الليدر بورد</span>
+          <span className="leading-none">الليدر بورد</span>
         </button>
       </div>
     </nav>

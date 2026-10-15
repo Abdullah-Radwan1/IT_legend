@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import styles from "./AskQuestionModal.module.scss";
-
 const DRAFT_KEY = "ask_question_draft";
 
 interface AskQuestionModalProps {
@@ -85,16 +83,16 @@ export default function AskQuestionModal({ onClose }: AskQuestionModalProps) {
         role="dialog"
         aria-modal="true"
         aria-label="اسأل سؤالاً"
-        className={styles.dialog}
+        className="flex w-[min(96vw,580px)] flex-col overflow-hidden rounded-[var(--radius-lg)] bg-[var(--color-surface-card)] shadow-[var(--shadow-modal)] animate-[slideUp_var(--transition-base)_both]"
       >
         {/* Header */}
-        <div className={styles.header}>
-          <h2 className={styles.title}>اسأل سؤالاً</h2>
+        <div className="flex items-center justify-between border-b border-[var(--color-border)] px-[var(--space-5)] py-[var(--space-4)]">
+          <h2 className="font-[family-name:var(--font-arabic)] text-base font-bold text-[var(--color-brand-dark)]">اسأل سؤالاً</h2>
           <button
             ref={closeRef}
             onClick={onClose}
             aria-label="إغلاق"
-            className={styles.closeBtn}
+            className="flex size-9 items-center justify-center rounded-[var(--radius-md)] text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-surface)] hover:text-[var(--color-text-primary)] [&_svg]:size-5"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18" />
@@ -104,21 +102,21 @@ export default function AskQuestionModal({ onClose }: AskQuestionModalProps) {
         </div>
 
         {/* Body */}
-        <div className={styles.body}>
+        <div className="p-[var(--space-6)]">
           {submitted ? (
-            <div className={styles.success}>
-              <span className={styles.successIcon} aria-hidden="true">✅</span>
-              <p>تم إرسال سؤالك بنجاح! سيتم الرد عليك قريباً.</p>
+            <div className="flex flex-col items-center gap-[var(--space-4)] px-[var(--space-4)] py-[var(--space-8)] text-center">
+              <span className="text-5xl" aria-hidden="true">✅</span>
+              <p className="font-[family-name:var(--font-arabic)] text-base font-light text-[var(--color-text-secondary)]">تم إرسال سؤالك بنجاح! سيتم الرد عليك قريباً.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className={styles.form}>
-              <label htmlFor="question-text" className={styles.label}>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-[var(--space-4)]">
+              <label htmlFor="question-text" className="font-[family-name:var(--font-arabic)] text-sm font-bold text-[var(--color-text-secondary)]">
                 سؤالك
               </label>
               <textarea
                 ref={textareaRef}
                 id="question-text"
-                className={styles.textarea}
+                className="min-h-[140px] w-full resize-y rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-[var(--space-4)] font-[family-name:var(--font-arabic)] text-[0.9rem] font-light text-[var(--color-text-secondary)] transition-[border-color,box-shadow] placeholder:text-[var(--color-text-placeholder)] focus:border-[var(--color-brand-accent)] focus:outline-none focus:ring-[3px] focus:ring-[rgba(72,82,147,0.12)]"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 placeholder="اكتب سؤالك بالتفصيل..."
@@ -126,20 +124,20 @@ export default function AskQuestionModal({ onClose }: AskQuestionModalProps) {
                 maxLength={1000}
                 required
               />
-              <div className={styles.meta}>
-                <span className={styles.charCount}>{text.length}/1000</span>
+              <div className="flex justify-end">
+                <span className="font-[family-name:var(--font-latin-body)] text-xs text-[var(--color-text-muted)]">{text.length}/1000</span>
               </div>
-              <div className={styles.actions}>
+              <div className="flex justify-end gap-[var(--space-3)] pt-[var(--space-2)]">
                 <button
                   type="button"
-                  className={styles.cancelBtn}
+                  className="rounded-[var(--radius-md)] border border-[var(--color-border)] px-[var(--space-5)] py-[var(--space-3)] font-[family-name:var(--font-arabic)] text-[0.9rem] font-light text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-surface)]"
                   onClick={onClose}
                 >
                   إلغاء
                 </button>
                 <button
                   type="submit"
-                  className={styles.sendBtn}
+                  className="rounded-[var(--radius-md)] bg-[var(--color-brand-primary)] px-[var(--space-6)] py-[var(--space-3)] font-[family-name:var(--font-arabic)] text-[0.9rem] font-bold text-white transition-colors hover:not-disabled:bg-[var(--color-brand-dark)] disabled:cursor-not-allowed disabled:opacity-50"
                   disabled={!text.trim()}
                 >
                   إرسال السؤال

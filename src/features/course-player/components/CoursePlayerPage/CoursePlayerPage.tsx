@@ -13,8 +13,6 @@ import CommentsSection from "../CommentsSection/CommentsSection";
 import AskQuestionModal from "../AskQuestionModal/AskQuestionModal";
 import LeaderboardModal from "../LeaderboardModal/LeaderboardModal";
 
-import styles from "./CoursePlayerPage.module.scss";
-
 interface CoursePlayerPageProps {
   data: CourseInfo;
 }
@@ -36,11 +34,11 @@ export default function CoursePlayerPage({ data }: CoursePlayerPageProps) {
       />
 
       {/* ── Main content ──────────────────────────────────────────────────── */}
-      <main className={`${styles.main} ${isTheater ? styles.theater : ""}`}>
+      <main className={`min-h-dvh bg-[var(--color-bg)] lg:mx-auto lg:max-w-[1304px] lg:px-[38px] lg:pb-[var(--space-12)] lg:pt-[var(--space-4)] ${isTheater ? "lg:[&_.player-wrapper]:!w-full lg:[&_.desktop-sidebar]:!hidden lg:[&_.top-section]:block lg:[&_.curriculum-mobile]:!block" : ""}`}>
         {/* Top section: video + curriculum sidebar (desktop: side by side, mobile: stacked) */}
-        <section className={styles.topSection} aria-label="مشغل الكورس">
+        <section className="top-section lg:mb-[var(--space-6)] lg:flex lg:items-start lg:gap-[var(--space-6)]" aria-label="مشغل الكورس">
           {/* Video player */}
-          <div className={styles.playerWrapper}>
+          <div className="player-wrapper lg:w-[799px] lg:shrink-0">
             <VideoPlayer
               src={data.videoSrc}
               title={data.title}
@@ -50,18 +48,18 @@ export default function CoursePlayerPage({ data }: CoursePlayerPageProps) {
           </div>
 
           {/* Curriculum sidebar – hidden on mobile (shown separately below) */}
-          <div className={styles.sidebarDesktop}>
+          <div className="desktop-sidebar hidden lg:block lg:max-w-[424px] lg:flex-1">
             <Curriculum sections={data.curriculum} />
           </div>
         </section>
 
         {/* Curriculum – mobile only (below video) */}
-        <div className={styles.curriculumMobile}>
+        <div className={`curriculum-mobile lg:hidden ${isTheater ? "lg:my-[var(--space-6)] [&_aside]:!h-auto [&_aside]:!max-h-none [&_aside]:!w-full [&_aside]:!max-w-full [&_aside]:!rounded-[var(--radius-sm)]" : ""}`}>
           <Curriculum sections={data.curriculum} />
         </div>
 
         {/* Below-fold content */}
-        <div className={styles.belowFold}>
+        <div className="flex flex-col gap-[var(--space-4)] lg:gap-[var(--space-6)]">
           {/* Progress tracker */}
           <ProgressTracker progress={data.progress} />
 
