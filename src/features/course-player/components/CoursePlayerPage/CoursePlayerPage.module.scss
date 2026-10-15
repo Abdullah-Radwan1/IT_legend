@@ -1,0 +1,104 @@
+// ── Layout constants ──────────────────────────────────────────────────────────
+
+$sidebar-width: 424px;
+$content-max: 1304px;
+$content-padding: 38px; // matches Figma desktop "38px from edge" offset
+
+.main {
+  min-block-size: 100dvh;
+  background: var(--color-bg);
+
+  @media (min-width: 1024px) {
+    max-inline-size: $content-max;
+    margin-inline: auto;
+    padding-inline: $content-padding;
+    padding-block-start: var(--space-4);
+    padding-block-end: var(--space-12);
+  }
+}
+
+// ── Top section (player + sidebar) ────────────────────────────────────────────
+
+.topSection {
+  @media (min-width: 1024px) {
+    display: flex;
+    gap: var(--space-6);
+    align-items: flex-start;
+    margin-block-end: var(--space-6);
+  }
+}
+
+.playerWrapper {
+  @media (min-width: 1024px) {
+    // Matches Figma 799×527 video
+    flex-shrink: 0;
+    inline-size: 799px;
+  }
+}
+
+.sidebarDesktop {
+  // Mobile: hidden – shown via .curriculumMobile
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: block;
+    flex: 1;
+    max-inline-size: $sidebar-width;
+  }
+}
+
+// ── Curriculum mobile ─────────────────────────────────────────────────────────
+
+.curriculumMobile {
+  // Shown only on mobile
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+// ── Below fold ────────────────────────────────────────────────────────────────
+
+.belowFold {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+
+  @media (max-width: 1023px) {
+    gap: var(--space-4);
+  }
+}
+
+// ── Theater mode ──────────────────────────────────────────────────────────────
+
+// In theater mode: video goes full width, sidebar hides, curriculum reappears below
+.theater {
+  .topSection {
+    display: block; // stack vertically
+  }
+
+  .playerWrapper {
+    inline-size: 100% !important;
+  }
+
+  .sidebarDesktop {
+    display: none !important;
+  }
+
+  .curriculumMobile {
+    display: block !important;
+
+    @media (min-width: 1024px) {
+      display: block !important;
+      margin-block: var(--space-6);
+
+      // Override max-height restriction in theater mode
+      :global(.sidebar),
+      aside {
+        max-block-size: none;
+        inline-size: 100%;
+        max-inline-size: 100%;
+        border-radius: var(--radius-sm);
+      }
+    }
+  }
+}

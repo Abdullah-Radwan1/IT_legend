@@ -1,0 +1,108 @@
+.tracker {
+  padding: var(--space-8) var(--space-6);
+  background: var(--color-surface-card);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-sm);
+}
+
+.heading {
+  font-family: var(--font-latin);
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--color-text-primary);
+  margin-block-end: var(--space-6);
+
+  @media (max-width: 1023px) {
+    font-size: 1.2rem;
+  }
+}
+
+// ── Progress bar ──────────────────────────────────────────────────────────────
+
+.barWrapper {
+  position: relative;
+  margin-block-end: var(--space-2);
+  padding-block-start: 52px; // space for marker bubble above bar
+}
+
+.track {
+  inline-size: 100%;
+  block-size: 5px;
+  background: var(--color-progress-bg);
+  border-radius: var(--radius-full);
+  overflow: visible;
+  position: relative;
+}
+
+.fill {
+  block-size: 100%;
+  background: var(--color-progress-fill);
+  border-radius: var(--radius-full);
+  transition: inline-size 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// ── Marker ────────────────────────────────────────────────────────────────────
+
+.markerWrapper {
+  position: absolute;
+  inset-block-start: 0;
+  transform: translateX(50%); // center the marker on the percentage point (RTL: positive = leftward)
+
+  [dir="rtl"] & {
+    transform: translateX(50%);
+  }
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.markerBubble {
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--color-progress-marker);
+  background: var(--color-surface-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-block-end: var(--space-1);
+}
+
+.markerLabel {
+  font-family: var(--font-latin-body);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  color: var(--color-brand-accent);
+  white-space: nowrap;
+}
+
+.markerTick {
+  inline-size: 1px;
+  block-size: 12px;
+  background: var(--color-progress-marker);
+}
+
+.markerPct {
+  font-family: var(--font-latin-body);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  color: var(--color-brand-accent);
+  margin-block-start: var(--space-1);
+  white-space: nowrap;
+}
+
+// ── Labels ────────────────────────────────────────────────────────────────────
+
+.labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-latin-body);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-block-start: var(--space-2);
+}

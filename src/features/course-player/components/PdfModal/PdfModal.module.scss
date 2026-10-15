@@ -1,0 +1,59 @@
+.dialog {
+  background: var(--color-surface-card);
+  border-radius: var(--radius-lg);
+  inline-size: min(96vw, 1000px);
+  block-size: min(92vh, 800px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideUp var(--transition-base) both;
+  box-shadow: var(--shadow-modal);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-5);
+  border-block-end: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.title {
+  font-family: var(--font-arabic);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-brand-dark);
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 36px;
+  block-size: 36px;
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  transition: background var(--transition-fast), color var(--transition-fast);
+
+  svg {
+    inline-size: 20px;
+    block-size: 20px;
+  }
+
+  &:hover {
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+  }
+}
+
+.body {
+  flex: 1;
+  overflow: hidden;
+}
+
+.iframe {
+  inline-size: 100%;
+  block-size: 100%;
+  border: none;
+}

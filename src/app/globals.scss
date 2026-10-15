@@ -1,0 +1,252 @@
+// ──────────────────────────────────────────────────────────────────────────────
+// Global Styles – ITLegend Course Player
+// Design tokens, resets, and base typography
+// ──────────────────────────────────────────────────────────────────────────────
+
+// ── Custom Fonts ──────────────────────────────────────────────────────────────
+
+// GE SS Two (Arabic) – served from /public/fonts/
+// NOTE: Place the actual font files in public/fonts/ (see README for details)
+// As a fallback the stack degrades gracefully to system Arabic fonts.
+@font-face {
+  font-family: "GE SS Two";
+  src: url("/fonts/GESSTwo-Light.woff2") format("woff2"),
+    url("/fonts/GESSTwo-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GE SS Two";
+  src: url("/fonts/GESSTwo-Bold.woff2") format("woff2"),
+    url("/fonts/GESSTwo-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+// League Spartan (EN/numbers)
+@font-face {
+  font-family: "League Spartan";
+  src: url("/fonts/LeagueSpartan-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "League Spartan";
+  src: url("/fonts/LeagueSpartan-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "League Spartan";
+  src: url("/fonts/LeagueSpartan-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Inter (EN medium)
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+// ── Design Tokens ─────────────────────────────────────────────────────────────
+
+:root {
+  // Colors
+  --color-bg: #ffffff;
+  --color-surface: #f5f9fa;
+  --color-surface-card: #ffffff;
+  --color-border: #e1e3e1;
+  --color-border-light: #e8eae8;
+
+  --color-text-primary: #000000;
+  --color-text-secondary: #363636;
+  --color-text-muted: #6c6c6c;
+  --color-text-placeholder: #939393;
+  --color-text-dark: #18181e;
+
+  --color-brand-primary: #182578;
+  --color-brand-dark: #080264;
+  --color-brand-accent: #485293;
+
+  --color-progress-bg: #e6e6e6;
+  --color-progress-fill: #6abd8a;
+  --color-progress-marker: #c8c8c8;
+
+  --color-danger: #e71b1b;
+
+  // Spacing scale
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  // Typography
+  --font-arabic: "GE SS Two", "Noto Kufi Arabic", "Noto Sans Arabic",
+    "Cairo", system-ui, sans-serif;
+  --font-latin: "League Spartan", system-ui, sans-serif;
+  --font-latin-body: "Inter", system-ui, sans-serif;
+
+  // Shadows
+  --shadow-card: 0 0 30.5px 15px rgba(0, 0, 0, 0.04);
+  --shadow-modal: 0 24px 64px rgba(0, 0, 0, 0.24);
+
+  // Radii
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 14px;
+  --radius-xl: 27px;
+  --radius-full: 9999px;
+
+  // Transitions
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  // Layout
+  --sidebar-width: 424px;
+  --nav-height: 64px;
+  --action-bar-height: 56px;
+}
+
+// ── Reset & Base ──────────────────────────────────────────────────────────────
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  font-family: var(--font-arabic);
+  font-weight: 300;
+  background-color: var(--color-bg);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  direction: rtl;
+  text-align: right;
+}
+
+// Remove default list styles
+ul,
+ol {
+  list-style: none;
+}
+
+// Image defaults
+img,
+video {
+  display: block;
+  max-inline-size: 100%;
+}
+
+// Button reset
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+}
+
+// Link reset
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+// ── Accessibility ─────────────────────────────────────────────────────────────
+
+:focus-visible {
+  outline: 3px solid var(--color-brand-accent);
+  outline-offset: 2px;
+}
+
+// Screen-reader only utility
+.sr-only {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// ── Modal Overlay ─────────────────────────────────────────────────────────────
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn var(--transition-fast) both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ── Scrollbar styling ─────────────────────────────────────────────────────────
+
+::-webkit-scrollbar {
+  inline-size: 4px;
+  block-size: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-progress-marker);
+  border-radius: var(--radius-full);
+}
