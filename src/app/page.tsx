@@ -1,9 +1,7 @@
-// Root page – Server Component
-// Imports mock data and passes it to the client course player
+// Root page – redirects to the Courses listing page
 
-import { courseData } from "@/features/course-player/data/courseData";
-import CoursePlayerPage from "@/features/course-player/components/CoursePlayerPage/CoursePlayerPage";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return <CoursePlayerPage data={courseData} />;
+  redirect("/courses");
 }

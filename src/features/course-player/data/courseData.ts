@@ -32,6 +32,9 @@ export const motivationalMessages: MotivationalMessage[] = [
 // ── Main mock data ───────────────────────────────────────────────────────────
 
 export const courseData: CourseInfo = {
+  id: "learn-nextjs",
+  image:
+    "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?w=600&auto=format&fit=crop&q=80",
   title: "Learn Next.js: From Beginner to Pro",
   instructor: "Ali Shaheen",
 
@@ -53,6 +56,7 @@ export const courseData: CourseInfo = {
   progress: {
     percentage: 63,
     studentLabel: "You",
+    status: "in-progress",
   },
 
   curriculum: [
@@ -77,7 +81,7 @@ export const courseData: CourseInfo = {
         },
         {
           id: "l-3",
-          title: "Course Overview Questions",
+          title: "Course Overview ",
           duration: "10 MINUTES",
           status: "locked",
           type: "quiz",

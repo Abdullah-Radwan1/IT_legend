@@ -80,9 +80,14 @@ export interface MotivationalMessage {
 
 // ── Progress ─────────────────────────────────────────────────────────────────
 
+/** "not-started" → Start button; "in-progress" → Continue; "completed" → Review */
+export type CourseStatus = "not-started" | "in-progress" | "completed";
+
 export interface CourseProgress {
   percentage: number;
   studentLabel: string;
+  /** Course status used for card CTA button label */
+  status: CourseStatus;
 }
 
 export interface CourseDetails {
@@ -99,6 +104,10 @@ export interface CourseDetails {
 // ── Course Info ───────────────────────────────────────────────────────────────
 
 export interface CourseInfo {
+  /** Unique slug used as the URL segment, e.g. "learn-nextjs" */
+  id: string;
+  /** Cover image URL shown on the courses listing page */
+  image: string;
   title: string;
   instructor: string;
   videoSrc: string;
