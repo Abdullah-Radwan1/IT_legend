@@ -3,7 +3,6 @@
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getCourseById } from "@/features/course-player/data/allCoursesData";
 import CoursePlayerPage from "@/features/course-player/components/CoursePlayerPage/CoursePlayerPage";
 import Breadcrumb from "@/features/course-player/components/Breadcrumb/Breadcrumb";
