@@ -1,15 +1,28 @@
 "use client";
 
 import { useState } from "react";
-import type { CourseMaterial, Exam } from "../../models";
+import {
+  Clock,
+  BookOpen,
+  Users,
+  Globe,
+  Award,
+  RefreshCw,
+  FileBadge,
+  ShieldCheck,
+} from "lucide-react";
+import type { CourseDetails, CourseMaterial, Exam } from "../../models";
 import PdfModal from "../PdfModal/PdfModal";
 import ExamModal from "../ExamModal/ExamModal";
+
 interface CourseMaterialsProps {
+  details: CourseDetails;
   materials: CourseMaterial[];
   exam: Exam;
 }
 
 export default function CourseMaterials({
+  details,
   materials,
   exam,
 }: CourseMaterialsProps) {
@@ -26,83 +39,82 @@ export default function CourseMaterials({
     }
   };
 
-  const typeLabel: Record<string, string> = {
-    pdf: "PDF",
-    exam: "Exam",
-    video: "Video",
-    link: "Link",
-  };
-
-  const typeIcon: Record<string, React.ReactNode> = {
-    pdf: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-        <polyline points="14 2 14 8 20 8" />
-        <line x1="8" y1="13" x2="16" y2="13" />
-        <line x1="8" y1="17" x2="16" y2="17" />
-        <line x1="10" y1="9" x2="14" y2="9" />
-      </svg>
-    ),
-    exam: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <polyline points="9 11 12 14 22 4" />
-        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-      </svg>
-    ),
-    link: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-      </svg>
-    ),
-    video: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <polygon points="23 7 16 12 23 17 23 7" />
-        <rect x="1" y="5" width="15" height="14" rx="2" />
-      </svg>
-    ),
-  };
+  const courseDetails = [
+    {
+      label: "Duration",
+      value: details.duration,
+      icon: <Clock size={22} className="shrink-0 text-muted" />,
+    },
+    {
+      label: "Level",
+      value: details.level,
+      icon: <Award size={22} className="shrink-0 text-muted" />,
+    },
+    {
+      label: "Lessons",
+      value: `${details.lessons} lessons`,
+      icon: <BookOpen size={22} className="shrink-0 text-muted" />,
+    },
+    {
+      label: "Certificate",
+      value: details.certificate,
+      icon: <FileBadge size={22} className="shrink-0 text-muted" />,
+    },
+    {
+      label: "Enrolled",
+      value: details.enrolled,
+      icon: <Users size={22} className="shrink-0 text-muted" />,
+    },
+    {
+      label: "Last updated",
+      value: details.lastUpdated,
+      icon: <RefreshCw size={22} className="shrink-0 text-muted" />,
+    },
+    {
+      label: "Language",
+      value: details.language,
+      icon: <Globe size={22} className="shrink-0 text-muted" />,
+    },
+    {
+      label: "Access",
+      value: details.access,
+      icon: <ShieldCheck size={22} className="shrink-0 text-muted" />,
+    },
+  ];
 
   return (
     <>
-      <section aria-label="Course materials" className="rounded-[var(--radius-sm)] bg-[var(--color-surface-card)] px-[var(--space-6)] py-[var(--space-8)] shadow-[var(--shadow-card)]">
-        <h2 className="mb-[var(--space-5)] font-[family-name:var(--font-latin)] text-[1.2rem] font-semibold text-[var(--color-text-primary)] lg:text-2xl">Course Materials</h2>
-
-        <ul className="flex flex-col gap-[var(--space-3)]" role="list">
-          {materials.map((mat) => (
-            <li key={mat.id}>
-              <button
-                className="flex w-full items-center gap-[var(--space-4)] rounded-[var(--radius-md)] border border-[rgba(0,0,0,0.1)] bg-[var(--color-surface-card)] px-[var(--space-5)] py-[var(--space-4)] text-start transition-[background-color,box-shadow,transform] hover:-translate-y-px hover:bg-[var(--color-surface)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
-                onClick={() => handleMaterial(mat)}
-                aria-label={`${mat.title} – ${typeLabel[mat.type] ?? mat.type}`}
-              >
-                <span className={`flex size-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] [&_svg]:size-5 ${mat.type === "pdf" ? "bg-[#fff0f0] text-[var(--color-danger)]" : mat.type === "exam" ? "bg-[#f0f4ff] text-[var(--color-brand-primary)]" : mat.type === "link" ? "bg-[rgba(65,182,157,0.1)] text-[var(--color-success)]" : "bg-[#fff8f0] text-[#e07b1b]"}`}>
-                  {typeIcon[mat.type]}
-                </span>
-                <span className="flex flex-1 flex-col gap-0.5">
-                  <span className="font-[family-name:var(--font-latin)] text-[0.9rem] font-light text-[var(--color-text-secondary)]">{mat.title}</span>
-                  <span className="font-[family-name:var(--font-latin)] text-xs font-medium text-[var(--color-text-muted)]">{typeLabel[mat.type]}</span>
-                </span>
-                <span className="flex text-[var(--color-text-muted)]" aria-hidden="true">
-                  <svg className="size-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <polyline points="15 18 9 12 15 6" />
-                  </svg>
-                </span>
-              </button>
-            </li>
+      <h2 className="text-2xl font-semibold text-foreground lg:text-3xl mb-4">
+        Course Materials
+      </h2>
+      <section
+        aria-label="Course materials"
+        className="rounded-sm bg-surface-card px-(--space-6) py-(--space-8) shadow-(--shadow-card)"
+      >
+        {/* Responsive Grid: 1 column on mobile, 2 columns on medium screens and up */}
+        <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2">
+          {courseDetails.map(({ label, value, icon }) => (
+            <div
+              key={label}
+              className="flex items-center justify-between min-w-0 border-b border-border-light py-(--space-3)"
+            >
+              <dt className="flex items-center gap-(--space-2) text-xs font-medium text-muted">
+                {icon}
+                <span className="text-base ">{label}</span>
+              </dt>
+              <dd className="break-words text-sm font-semibold text-muted">
+                {value}
+              </dd>
+            </div>
           ))}
-        </ul>
+        </dl>
       </section>
 
       {/* PDF Modal */}
-      {pdfUrl && (
-        <PdfModal url={pdfUrl} onClose={() => setPdfUrl(null)} />
-      )}
+      {pdfUrl && <PdfModal url={pdfUrl} onClose={() => setPdfUrl(null)} />}
 
       {/* Exam Modal */}
-      {examOpen && (
-        <ExamModal exam={exam} onClose={() => setExamOpen(false)} />
-      )}
+      {examOpen && <ExamModal exam={exam} onClose={() => setExamOpen(false)} />}
     </>
   );
 }

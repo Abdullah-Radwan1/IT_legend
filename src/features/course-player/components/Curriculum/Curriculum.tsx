@@ -1,6 +1,7 @@
-// Curriculum – Server Component (pure display)
-
 import type { CurriculumSection } from "../../models";
+import ProgressTracker from "../ProgressTracker/ProgressTracker";
+import { FileText, CircleHelp, Lock } from "lucide-react";
+
 interface CurriculumProps {
   sections: CurriculumSection[];
 }
@@ -9,62 +10,106 @@ export default function Curriculum({ sections }: CurriculumProps) {
   return (
     <aside
       id="curriculum"
-      className="max-h-[360px] overflow-y-auto border-y border-[var(--color-border-light)] bg-[var(--color-surface-card)] lg:max-h-[527px] lg:w-[var(--sidebar-width)] lg:shrink-0 lg:rounded-[var(--radius-lg)] lg:border"
       aria-label="Course curriculum"
+      className="bg-surface-card lg:max-h-131.75 lg:rounded-lg"
     >
-      <h2 className="sticky top-0 z-[1] border-b border-[var(--color-border)] bg-[var(--color-surface-card)] px-[var(--space-5)] py-[var(--space-4)] font-[family-name:var(--font-latin)] text-base font-bold text-[var(--color-brand-dark)]">Course curriculum</h2>
-
-      <div className="py-[var(--space-3)]">
+      {/* Sticky sidebar heading */}
+      <h2 className="sticky top-0 z-10 bg-surface-card pb-4 font-sans text-xl font-medium">
+        Topics for this course
+      </h2>
+      <ProgressTracker progress={{ percentage: 20, studentLabel: "you" }} />
+      <div className="py-3">
         {sections.map((section) => (
-          <div key={section.id} className="not-first:mt-[var(--space-2)] not-first:border-t not-first:border-[var(--color-border-light)] not-first:pt-[var(--space-2)]">
-            <h3 className="px-[var(--space-5)] py-[var(--space-2)] font-[family-name:var(--font-latin)] text-[0.8rem] font-bold uppercase tracking-[0.04em] text-[var(--color-text-muted)]">{section.title}</h3>
+          <section
+            key={section.id}
+            className="mb-14 border border-gray-200 px-6"
+          >
+            {/* Week title */}
+            <h3 className=" pt-8 mb-4  font-sans text-xl font-medium">
+              {section.title}
+            </h3>
 
-            <ul className="flex flex-col" role="list">
-              {section.lessons.map((lesson) => (
-                <li
-                  key={lesson.id}
-                  className={`flex cursor-pointer items-center gap-[var(--space-3)] border-s-[3px] border-transparent px-[var(--space-5)] py-[var(--space-3)] transition-colors hover:bg-[var(--color-surface)] ${lesson.status === "completed" ? "text-[var(--color-text-muted)] [&_span:first-child]:text-[var(--color-success)]" : lesson.status === "current" ? "border-s-[var(--color-brand-primary)] bg-[rgba(24,37,120,0.04)] font-bold text-[var(--color-brand-dark)] [&_span:first-child]:text-[var(--color-brand-primary)]" : "cursor-not-allowed text-[var(--color-progress-marker)] opacity-70 [&_span:first-child]:text-[var(--color-progress-marker)]"}`}
-                  aria-current={lesson.status === "current" ? "page" : undefined}
-                >
-                  {/* Status icon */}
-                  <span
-                    className="flex shrink-0 [&_svg]:size-5"
-                    aria-hidden="true"
-                    aria-label={
-                      lesson.status === "completed"
-                        ? "Completed"
-                        : lesson.status === "current"
-                        ? "Current lesson"
-                        : "Locked"
-                    }
+            {/* Gray description */}
+            <p className=" pb-3 font-medium text-base leading-relaxed text-muted">
+              {section.description}
+            </p>
+
+            {/* Lessons */}
+            <ul className="flex flex-col gap-2" role="list">
+              {section.lessons.map((lesson) => {
+                const isLocked = lesson.status === "locked";
+                const isCurrent = lesson.status === "current";
+
+                return (
+                  <li
+                    key={lesson.id}
+                    aria-current={isCurrent ? "page" : undefined}
+                    className={`flex items-center gap-3 border-t border-gray-200  py-3 transition-colors ${
+                      isCurrent
+                        ? "border-s-brand-primary bg-brand-primary/4 text-foreground"
+                        : "text-muted"
+                    }`}
                   >
-                    {lesson.status === "completed" && (
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                        <circle cx="12" cy="12" r="10" />
-                        <polyline points="9,12 11,14 15,10" />
-                      </svg>
-                    )}
-                    {lesson.status === "current" && (
-                      <svg viewBox="0 0 24 24" fill="currentColor">
-                        <circle cx="12" cy="12" r="10" />
-                        <polygon points="10,8 16,12 10,16" fill="#fff" />
-                      </svg>
-                    )}
-                    {lesson.status === "locked" && (
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <rect x="3" y="11" width="18" height="11" rx="2" />
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                      </svg>
-                    )}
-                  </span>
+                    {/* PDF or quiz icon */}
+                    <span className="shrink-0">
+                      {lesson.type === "pdf" ? (
+                        <FileText
+                          className="size-5 shrink-0"
+                          aria-hidden="true"
+                        />
+                      ) : lesson.type === "quiz" ? (
+                        <CircleHelp
+                          className="size-5 shrink-0"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <span className="text-xs" aria-hidden="true">
+                          ▶
+                        </span>
+                      )}
+                    </span>
 
-                  <span className={`flex-1 font-[family-name:var(--font-latin)] text-sm font-light leading-[1.4] ${lesson.status === "current" ? "font-bold" : ""}`}>{lesson.title}</span>
+                    {/* Lesson title and metadata box */}
+                    <span className="min-w-0 flex-1 flex items-center justify-between gap-4">
+                      <span
+                        className={`block font-sans text-sm leading-snug ${
+                          isCurrent ? "font-bold" : "font-medium"
+                        }`}
+                      >
+                        {lesson.title}
+                      </span>
 
-                  <span className="shrink-0 font-[family-name:var(--font-latin)] text-xs font-medium text-[var(--color-time)]">{lesson.duration}</span>
-                </li>
-              ))}
+                      {/* Question count and duration grouped together, wrapping vertically if space is tight */}
+                      <div className="flex flex-col sm:flex-row items-end sm:items-center gap-1 shrink-0">
+                        {lesson.type === "quiz" &&
+                          lesson.questionCount != null && (
+                            <span className="px-2 py-0.5 text-sm bg-green-100 text-green-700 font-medium rounded">
+                              {lesson.questionCount} QUESTIONS
+                            </span>
+                          )}
+                        {lesson.duration && (
+                          <span className="whitespace-nowrap text-sm text-time bg-red-100 px-2 py-0.5 rounded font-medium">
+                            {lesson.duration}
+                          </span>
+                        )}
+                      </div>
+                    </span>
+
+                    {/* Lock at the far right */}
+                    {isLocked && (
+                      <span
+                        className="shrink-0 "
+                        aria-label="Locked"
+                        title="Locked"
+                      >
+                        <Lock className="size-4 shrink-0" aria-hidden="true" />
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
-          </div>
+          </section>
         ))}
       </div>
     </aside>

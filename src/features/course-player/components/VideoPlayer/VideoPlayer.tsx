@@ -166,7 +166,7 @@ export default function VideoPlayer({
   return (
     <div
       ref={containerRef}
-      className={`player relative aspect-video w-full overflow-hidden bg-black max-lg:sticky max-lg:top-0 max-lg:z-[80] max-lg:max-h-[240px] lg:h-[527px] lg:w-[799px] lg:shrink-0 lg:aspect-auto lg:rounded-[var(--radius-sm)] ${isTheater ? "lg:h-auto lg:aspect-video lg:w-full" : ""}`}
+      className="relative aspect-video w-full overflow-hidden bg-black max-lg:sticky max-lg:top-0 max-lg:z-[80] max-lg:max-h-[240px] lg:rounded-[var(--radius-sm)]"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => isPlaying && setShowControls(false)}
       aria-label={`Video player: ${title}`}
@@ -315,7 +315,7 @@ export default function VideoPlayer({
             />
 
             {/* Time */}
-            <time className="whitespace-nowrap font-[family-name:var(--font-latin)] text-xs font-medium text-[var(--color-time)]" dateTime={`PT${Math.floor(currentTime)}S`}>
+            <time className="whitespace-nowrap text-xs font-medium text-time" dateTime={`PT${Math.floor(currentTime)}S`}>
               {formatTime(currentTime)} / {formatTime(duration)}
             </time>
           </div>

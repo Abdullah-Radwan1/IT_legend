@@ -128,16 +128,16 @@ export default function ExamModal({ exam, onClose }: ExamModalProps) {
         role="dialog"
         aria-modal="true"
         aria-label={exam.title}
-        className="flex max-h-[90vh] w-[min(96vw,680px)] flex-col overflow-hidden rounded-[var(--radius-lg)] bg-[var(--color-surface-card)] shadow-[var(--shadow-modal)] animate-[slideUp_var(--transition-base)_both]"
+        className="flex max-h-[90vh] w-[min(96vw,680px)] flex-col overflow-hidden rounded-[var(--radius-lg)] bg-surface-card shadow-[var(--shadow-modal)] animate-[slideUp_var(--transition-base)_both]"
       >
         {/* Header */}
-        <div className="flex shrink-0 items-center justify-between border-b border-[var(--color-border)] px-[var(--space-5)] py-[var(--space-4)]">
-          <h2 className="font-[family-name:var(--font-latin)] text-base font-bold text-[var(--color-brand-dark)]">{exam.title}</h2>
+        <div className="flex shrink-0 items-center justify-between border-b border-border px-[var(--space-5)] py-[var(--space-4)]">
+          <h2 className="text-base font-bold">{exam.title}</h2>
           <button
             ref={closeRef}
             onClick={onClose}
             aria-label="Close"
-            className="flex size-9 items-center justify-center rounded-[var(--radius-md)] text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-surface)] hover:text-[var(--color-text-primary)] [&_svg]:size-5"
+            className="flex size-9 items-center justify-center rounded-[var(--radius-md)] text-muted transition-colors hover:bg-surface hover:text-foreground [&_svg]:size-5"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18" />
@@ -151,11 +151,11 @@ export default function ExamModal({ exam, onClose }: ExamModalProps) {
           {submitted ? (
             /* Results view */
             <div className="flex flex-col items-center gap-[var(--space-6)] text-center">
-              <div className="flex size-[120px] items-center justify-center gap-0.5 rounded-full bg-gradient-to-br from-[var(--color-brand-primary)] to-[var(--color-brand-accent)] shadow-[0_8px_32px_rgba(24,37,120,0.3)]">
-                <span className="font-[family-name:var(--font-latin)] text-[2.5rem] font-semibold text-white">{score}</span>
-                <span className="self-end pb-[0.4rem] font-[family-name:var(--font-latin)] text-base font-light text-[rgba(255,255,255,0.7)]">/{exam.questions.length}</span>
+              <div className="flex size-[120px] items-center justify-center gap-0.5 rounded-full bg-gradient-to-br from-brand-primary to-brand-accent shadow-[0_8px_32px_rgba(24,37,120,0.3)]">
+                <span className="text-[2.5rem] font-semibold text-white">{score}</span>
+                <span className="self-end pb-[0.4rem] text-base font-light text-[rgba(255,255,255,0.7)]">/{exam.questions.length}</span>
               </div>
-              <p className="max-w-[400px] font-[family-name:var(--font-latin)] text-[1.1rem] font-light text-[var(--color-text-secondary)]">
+              <p className="max-w-[400px] text-[1.1rem] font-light text-foreground">
                 {score === exam.questions.length
                   ? "Excellent! You got every answer right! 🎉"
                   : score >= exam.questions.length / 2
@@ -168,11 +168,11 @@ export default function ExamModal({ exam, onClose }: ExamModalProps) {
                   const correct = q.correctOptionId;
                   const isRight = chosen === correct;
                   return (
-                    <div key={q.id} className={`rounded-[var(--radius-md)] border-s-4 px-[var(--space-4)] py-[var(--space-3)] ${isRight ? "border-[var(--color-success)] bg-[rgba(65,182,157,0.1)]" : "border-[var(--color-danger)] bg-[rgba(231,100,126,0.08)]"}`}>
-                      <span className="mb-[var(--space-1)] block font-[family-name:var(--font-latin)] text-sm text-[var(--color-text-secondary)]">
+                    <div key={q.id} className={`rounded-[var(--radius-md)] border-s-4 px-[var(--space-4)] py-[var(--space-3)] ${isRight ? "border-success bg-success/10" : "border-danger bg-danger/8"}`}>
+                      <span className="mb-[var(--space-1)] block text-sm text-foreground">
                         {idx + 1}. {q.text}
                       </span>
-                      <span className="block font-[family-name:var(--font-latin)] text-[0.8rem] text-[var(--color-text-muted)]">
+                      <span className="block text-[0.8rem] text-muted">
                         {isRight ? "✓ " : "✗ "}
                         {q.options.find((o) => o.id === correct)?.text}
                       </span>
@@ -180,7 +180,7 @@ export default function ExamModal({ exam, onClose }: ExamModalProps) {
                   );
                 })}
               </div>
-              <button className="rounded-[var(--radius-md)] bg-[var(--color-brand-primary)] px-[var(--space-8)] py-[var(--space-3)] font-[family-name:var(--font-latin)] text-base font-bold text-white transition-colors hover:bg-[var(--color-brand-dark)]" onClick={onClose}>
+              <button className="rounded-[var(--radius-md)] bg-brand-primary px-[var(--space-8)] py-[var(--space-3)] text-base font-bold text-white transition-colors hover:bg-brand-dark" onClick={onClose}>
                 Close
               </button>
             </div>
@@ -188,7 +188,7 @@ export default function ExamModal({ exam, onClose }: ExamModalProps) {
             /* Question view */
             <div className="flex flex-col gap-[var(--space-6)]">
               {/* Progress */}
-              <div className="flex items-center justify-between font-[family-name:var(--font-latin)] text-sm text-[var(--color-text-muted)]">
+              <div className="flex items-center justify-between text-sm text-muted">
                 <span>
                   Question {currentIdx + 1} of {exam.questions.length}
                 </span>
@@ -196,7 +196,7 @@ export default function ExamModal({ exam, onClose }: ExamModalProps) {
                   {exam.questions.map((_, i) => (
                     <button
                       key={i}
-                      className={`size-2.5 rounded-full transition-[background-color,transform] hover:scale-[1.3] ${i === currentIdx ? "bg-[var(--color-brand-primary)]" : answers[exam.questions[i].id] ? "bg-[var(--color-progress-fill)]" : "bg-[var(--color-progress-bg)]"}`}
+                      className={`size-2.5 rounded-full transition-[background-color,transform] hover:scale-[1.3] ${i === currentIdx ? "bg-brand-primary" : answers[exam.questions[i].id] ? "bg-progress-fill" : "bg-progress-bg"}`}
                       onClick={() => setCurrentIdx(i)}
                       aria-label={`Question ${i + 1}`}
                       aria-current={i === currentIdx ? "true" : undefined}
@@ -207,7 +207,7 @@ export default function ExamModal({ exam, onClose }: ExamModalProps) {
 
               {/* Question text */}
               <fieldset className="border-0 p-0">
-                <legend className="mb-[var(--space-5)] block font-[family-name:var(--font-latin)] text-[1.1rem] font-bold leading-[1.6] text-[var(--color-text-secondary)]">
+                <legend className="mb-[var(--space-5)] block text-[1.1rem] font-bold leading-[1.6] text-foreground">
                   {currentQuestion.text}
                 </legend>
 
@@ -217,7 +217,7 @@ export default function ExamModal({ exam, onClose }: ExamModalProps) {
                     return (
                       <label
                         key={opt.id}
-                        className={`flex cursor-pointer items-center gap-[var(--space-3)] rounded-[var(--radius-md)] border px-[var(--space-4)] py-[var(--space-4)] transition-[background-color,border-color] hover:border-[var(--color-brand-accent)] hover:bg-[rgba(72,82,147,0.04)] ${selected ? "border-[var(--color-brand-primary)] bg-[rgba(24,37,120,0.06)]" : "border-[var(--color-border)] bg-[var(--color-surface)]"}`}
+                        className={`flex cursor-pointer items-center gap-[var(--space-3)] rounded-[var(--radius-md)] border px-[var(--space-4)] py-[var(--space-4)] transition-[background-color,border-color] hover:border-brand-accent hover:bg-brand-accent/4 ${selected ? "border-brand-primary bg-brand-primary/6" : "border-border bg-surface"}`}
                       >
                         <input
                           type="radio"
@@ -227,8 +227,8 @@ export default function ExamModal({ exam, onClose }: ExamModalProps) {
                           onChange={() => handleSelect(opt.id)}
                           className="peer sr-only"
                         />
-                        <span className="relative size-5 shrink-0 rounded-full border-2 border-[var(--color-border)] transition-[border-color,background-color] after:absolute after:inset-[3px] after:hidden after:rounded-full after:bg-white after:content-[''] peer-checked:border-[var(--color-brand-primary)] peer-checked:bg-[var(--color-brand-primary)] peer-checked:after:block" aria-hidden="true" />
-                        <span className="font-[family-name:var(--font-latin)] text-[0.9rem] font-light text-[var(--color-text-secondary)]">{opt.text}</span>
+                        <span className="relative size-5 shrink-0 rounded-full border-2 border-border transition-[border-color,background-color] after:absolute after:inset-[3px] after:hidden after:rounded-full after:bg-white after:content-[''] peer-checked:border-brand-primary peer-checked:bg-brand-primary peer-checked:after:block" aria-hidden="true" />
+                        <span className="text-[0.9rem] font-light text-foreground">{opt.text}</span>
                       </label>
                     );
                   })}
@@ -236,9 +236,9 @@ export default function ExamModal({ exam, onClose }: ExamModalProps) {
               </fieldset>
 
               {/* Navigation */}
-              <div className="flex justify-between gap-[var(--space-3)] border-t border-[var(--color-border)] pt-[var(--space-4)]">
+              <div className="flex justify-between gap-[var(--space-3)] border-t border-border pt-[var(--space-4)]">
                 <button
-                  className="flex items-center gap-[var(--space-2)] rounded-[var(--radius-md)] border border-[var(--color-border)] px-[var(--space-5)] py-[var(--space-3)] font-[family-name:var(--font-latin)] text-[0.9rem] font-light text-[var(--color-text-secondary)] transition-colors hover:not-disabled:bg-[var(--color-surface)] disabled:cursor-not-allowed disabled:opacity-40 [&_svg]:size-4"
+                  className="flex items-center gap-[var(--space-2)] rounded-[var(--radius-md)] border border-border px-[var(--space-5)] py-[var(--space-3)] text-[0.9rem] font-light text-foreground transition-colors hover:not-disabled:bg-surface disabled:cursor-not-allowed disabled:opacity-40 [&_svg]:size-4"
                   onClick={handlePrev}
                   disabled={currentIdx === 0}
                   aria-label="Previous question"
@@ -251,7 +251,7 @@ export default function ExamModal({ exam, onClose }: ExamModalProps) {
 
                 {isLast ? (
                   <button
-                    className="flex items-center gap-[var(--space-2)] rounded-[var(--radius-md)] border border-[var(--color-brand-primary)] bg-[var(--color-brand-primary)] px-[var(--space-5)] py-[var(--space-3)] font-[family-name:var(--font-latin)] text-[0.9rem] font-light text-white transition-colors hover:not-disabled:border-[var(--color-brand-dark)] hover:not-disabled:bg-[var(--color-brand-dark)] disabled:cursor-not-allowed disabled:opacity-40 [&_svg]:size-4"
+                    className="flex items-center gap-[var(--space-2)] rounded-[var(--radius-md)] border border-brand-primary bg-brand-primary px-[var(--space-5)] py-[var(--space-3)] text-[0.9rem] font-light text-white transition-colors hover:not-disabled:border-brand-dark hover:not-disabled:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-40 [&_svg]:size-4"
                     onClick={handleSubmit}
                     disabled={Object.keys(answers).length === 0}
                     aria-label="Submit exam"
@@ -260,7 +260,7 @@ export default function ExamModal({ exam, onClose }: ExamModalProps) {
                   </button>
                 ) : (
                   <button
-                    className="flex items-center gap-[var(--space-2)] rounded-[var(--radius-md)] border border-[var(--color-border)] px-[var(--space-5)] py-[var(--space-3)] font-[family-name:var(--font-latin)] text-[0.9rem] font-light text-[var(--color-text-secondary)] transition-colors hover:not-disabled:bg-[var(--color-surface)] disabled:cursor-not-allowed disabled:opacity-40 [&_svg]:size-4"
+                    className="flex items-center gap-[var(--space-2)] rounded-[var(--radius-md)] border border-border px-[var(--space-5)] py-[var(--space-3)] text-[0.9rem] font-light text-foreground transition-colors hover:not-disabled:bg-surface disabled:cursor-not-allowed disabled:opacity-40 [&_svg]:size-4"
                     onClick={handleNext}
                     aria-label="Next question"
                   >

@@ -1,18 +1,31 @@
 "use client";
 
 import { useState } from "react";
+import { ArrowRight, Send } from "lucide-react";
 import type { Comment } from "../../models";
+import Image from "next/image";
+
 interface CommentsSectionProps {
   initialComments: Comment[];
 }
 
-function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
+// Helper to provide a realistic default avatar of a man if none is provided
+function getDefaultAvatar(id: string): string {
+  // Using curated Unsplash portrait IDs for men
+  const samplePortraits = [
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=150&auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80",
+  ];
+
+  // Simple hash to consistently pick an image based on the comment ID string
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    hash = id.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % samplePortraits.length;
+  return samplePortraits[index];
 }
 
 export default function CommentsSection({
@@ -31,6 +44,8 @@ export default function CommentsSection({
       authorName: "You",
       text: trimmed,
       timeAgo: "Just now",
+      avatarUrl:
+        "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
     };
 
     setComments((prev) => [newComment, ...prev]);
@@ -38,67 +53,87 @@ export default function CommentsSection({
   };
 
   return (
-    <section id="comments" className="rounded-[var(--radius-sm)] bg-[var(--color-surface-card)] p-[var(--space-8)] px-[var(--space-6)] shadow-[var(--shadow-card)]" aria-label="Comments">
-      <h2 className="mb-[var(--space-6)] font-[family-name:var(--font-latin)] text-[1.2rem] font-semibold text-[var(--color-text-primary)] lg:text-2xl">Comments</h2>
+    <section id="comments" aria-label="Comments" className="my-6">
+      <h2 className="mb-6 text-xl font-semibold text-foreground lg:text-3xl">
+        Comments
+      </h2>
 
       {/* Comment list */}
-      <ul className="mb-[var(--space-8)] flex flex-col gap-[var(--space-5)]" role="list" aria-label="Comment list">
-        {comments.map((c) => (
-          <li key={c.id} className="flex items-start gap-[var(--space-4)]">
-            {/* Avatar */}
-            <div className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[var(--color-brand-accent)] to-[var(--color-brand-primary)] font-[family-name:var(--font-latin)] text-[0.8rem] font-semibold text-white [&_img]:size-full [&_img]:object-cover" aria-hidden="true">
-              {c.avatarUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={c.avatarUrl} alt="" />
-              ) : (
-                <span>{getInitials(c.authorName)}</span>
-              )}
-            </div>
+      <ul
+        className="mb-8 flex flex-col gap-5"
+        role="list"
+        aria-label="Comment list"
+      >
+        {comments.map((c) => {
+          const avatarSrc = c.avatarUrl || getDefaultAvatar(c.id);
 
-            <div className="flex-1 rounded-e-[var(--radius-lg)] rounded-bl-[var(--radius-lg)] bg-[var(--color-surface)] px-[var(--space-4)] py-[var(--space-3)]">
-              <div className="mb-[var(--space-2)] flex items-center gap-[var(--space-3)]">
-                <span className="font-[family-name:var(--font-latin)] text-sm font-semibold text-[var(--color-text-dark)]">{c.authorName}</span>
-                <span className="font-[family-name:var(--font-latin)] text-xs font-light text-[var(--color-time)]">{c.timeAgo}</span>
+          return (
+            <li
+              key={c.id}
+              className="flex items-start gap-3 border-b border-gray-200 pb-5 last:border-b-0"
+            >
+              {/* Avatar */}
+              <div
+                className="flex size-18 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100"
+                aria-hidden="true"
+              >
+                <Image
+                  width={300}
+                  height={300}
+                  src={avatarSrc}
+                  alt={c.authorName}
+                  className="size-full object-cover"
+                />
               </div>
-              <p className="font-[family-name:var(--font-latin)] text-[0.9rem] font-light leading-[1.6] text-[var(--color-text-secondary)]">{c.text}</p>
-            </div>
-          </li>
-        ))}
+
+              <div className="flex-1 px-2">
+                <div className="mb-2 flex flex-col">
+                  <span className="text-balance  font-medium text-shadow-muted">
+                    {c.authorName}
+                  </span>
+                  <span className="text-sm font-light text-muted">
+                    {c.timeAgo}
+                  </span>
+                </div>
+                <p className="text-base leading-relaxed text-muted font-light">
+                  {c.text}
+                </p>
+              </div>
+            </li>
+          );
+        })}
       </ul>
 
       {/* New comment form */}
       <form
         onSubmit={handleSubmit}
-        className="border-t border-[var(--color-border)] pt-[var(--space-5)]"
+        className=" pt-5"
         aria-label="Add a comment"
       >
-        <div className="flex items-center gap-[var(--space-3)] rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-[var(--space-5)] py-[var(--space-3)] transition-[border-color,box-shadow] focus-within:border-[var(--color-brand-accent)] focus-within:shadow-[0_0_0_3px_rgba(72,82,147,0.12)]">
+        <div className="w-full flex-1 ">
           <label htmlFor="new-comment" className="sr-only">
             Write a comment
           </label>
-          <input
+          <textarea
             id="new-comment"
-            type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Write a comment"
-            className="min-w-0 flex-1 border-0 bg-transparent text-left font-[family-name:var(--font-latin)] text-sm font-medium text-[var(--color-text-secondary)] outline-none placeholder:text-[var(--color-text-placeholder)]"
+            className=" p-4 w-full placeholder:text-shadow-muted mb-4  shadow-xl  min-h-36"
             aria-label="Write your comment"
             maxLength={500}
             dir="ltr"
           />
-          <button
-            type="submit"
-            disabled={!text.trim()}
-            className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[var(--color-brand-primary)] text-white transition-[background-color,transform] hover:not-disabled:scale-105 hover:not-disabled:bg-[var(--color-brand-dark)] disabled:cursor-not-allowed disabled:bg-[var(--color-progress-bg)] disabled:text-[var(--color-text-muted)] [&_svg]:size-4"
-            aria-label="Post comment"
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <line x1="22" y1="2" x2="11" y2="13" />
-              <polygon points="22 2 15 22 11 13 2 9 22 2" />
-            </svg>
-          </button>
         </div>
+        <button
+          className="flex bg-success text-white py-3 px-6 items-center gap-2 font-medium rounded"
+          type="submit"
+          disabled={!text.trim()}
+          aria-label="Post comment"
+        >
+          Submit Review{" "}
+          <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
+        </button>
       </form>
     </section>
   );

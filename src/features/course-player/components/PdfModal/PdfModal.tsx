@@ -51,16 +51,16 @@ export default function PdfModal({ url, onClose }: PdfModalProps) {
         role="dialog"
         aria-modal="true"
         aria-label="View PDF"
-        className="flex h-[min(92vh,800px)] w-[min(96vw,1000px)] flex-col overflow-hidden rounded-[var(--radius-lg)] bg-[var(--color-surface-card)] shadow-[var(--shadow-modal)] animate-[slideUp_var(--transition-base)_both]"
+        className="flex h-[min(92vh,800px)] w-[min(96vw,1000px)] flex-col overflow-hidden rounded-[var(--radius-lg)] bg-surface-card shadow-[var(--shadow-modal)] animate-[slideUp_var(--transition-base)_both]"
       >
         {/* Header */}
-        <div className="flex shrink-0 items-center justify-between border-b border-[var(--color-border)] px-[var(--space-5)] py-[var(--space-4)]">
-          <h2 className="font-[family-name:var(--font-latin)] text-base font-bold text-[var(--color-brand-dark)]">PDF document</h2>
+        <div className="flex shrink-0 items-center justify-between border-b border-border px-[var(--space-5)] py-[var(--space-4)]">
+          <h2 className="text-base font-bold">PDF document</h2>
           <button
             ref={closeRef}
             onClick={onClose}
             aria-label="Close"
-            className="flex size-9 items-center justify-center rounded-[var(--radius-md)] text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-surface)] hover:text-[var(--color-text-primary)] [&_svg]:size-5"
+            className="flex size-9 items-center justify-center rounded-[var(--radius-md)] text-muted transition-colors hover:bg-surface hover:text-foreground [&_svg]:size-5"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18" />

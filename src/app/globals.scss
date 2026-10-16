@@ -6,31 +6,6 @@
 // ── Design Tokens ─────────────────────────────────────────────────────────────
 
 :root {
-  // Colors
-  --color-bg: #ffffff;
-  --color-surface: #f5f9fa;
-  --color-surface-card: #ffffff;
-  --color-border: #e1e3e1;
-  --color-border-light: #e8eae8;
-
-  --color-text-primary: #181818;
-  --color-text-secondary: #181818;
-  --color-text-muted: #6c6c6c;
-  --color-text-placeholder: #939393;
-  --color-text-dark: #181818;
-
-  --color-brand-primary: #182578;
-  --color-brand-dark: #181818;
-  --color-brand-accent: #485293;
-
-  --color-progress-bg: #e6e6e6;
-  --color-progress-fill: #6abd8a;
-  --color-progress-marker: #c8c8c8;
-
-  --color-success: #41b69d;
-  --color-time: #e7647e;
-  --color-danger: #e7647e;
-
   // Spacing scale
   --space-1: 4px;
   --space-2: 8px;
@@ -43,7 +18,7 @@
   --space-12: 48px;
 
   // Typography
-  --font-latin: "League Spartan", system-ui, sans-serif;
+  --font-latin: "League Spartan", system-ui;
 
   // Shadows
   --shadow-card: 0 0 30.5px 15px rgba(0, 0, 0, 0.04);
@@ -88,9 +63,9 @@
 
   body {
     font-family: var(--font-latin);
-    font-weight: 300;
+    font-weight: 400;
     background-color: var(--color-bg);
-    color: var(--color-text-secondary);
+    color: var(--color-foreground);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     direction: ltr;
@@ -104,33 +79,13 @@
   }
 
   // Image defaults
-  img,
+
   video {
     display: block;
     max-inline-size: 100%;
   }
 
-  // Button reset
-  button {
-    cursor: pointer;
-    border: none;
-    background: none;
-    font: inherit;
-    color: inherit;
-  }
-
-  // Link reset
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-
   // ── Accessibility ─────────────────────────────────────────────────────────
-
-  :focus-visible {
-    outline: 3px solid var(--color-brand-accent);
-    outline-offset: 2px;
-  }
 
   // Screen-reader only utility
   .sr-only {
@@ -148,6 +103,15 @@
 
 // ── Modal Overlay ─────────────────────────────────────────────────────────────
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -157,15 +121,6 @@
   align-items: center;
   justify-content: center;
   animation: fadeIn var(--transition-fast) both;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 @keyframes slideUp {

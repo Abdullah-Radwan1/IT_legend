@@ -5,13 +5,17 @@ export type LessonStatus = "current" | "completed" | "locked";
 export interface Lesson {
   id: string;
   title: string;
-  duration: string; // e.g. "10:34"
+  duration?: string; // e.g. "10:34"
   status: LessonStatus;
+  type: string;
+  questionCount?: number;
 }
 
 export interface CurriculumSection {
   id: string;
   title: string;
+  description: string;
+
   lessons: Lesson[];
 }
 
@@ -81,12 +85,24 @@ export interface CourseProgress {
   studentLabel: string;
 }
 
+export interface CourseDetails {
+  duration: string;
+  lessons: number;
+  enrolled: string;
+  language: string;
+  level: string;
+  lastUpdated: string;
+  certificate: string;
+  access: string;
+}
+
 // ── Course Info ───────────────────────────────────────────────────────────────
 
 export interface CourseInfo {
   title: string;
   instructor: string;
   videoSrc: string;
+  details: CourseDetails;
   progress: CourseProgress;
   curriculum: CurriculumSection[];
   materials: CourseMaterial[];

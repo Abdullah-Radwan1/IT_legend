@@ -39,6 +39,17 @@ export const courseData: CourseInfo = {
   videoSrc:
     "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
 
+  details: {
+    duration: "12 hours",
+    lessons: 24,
+    enrolled: "2,450 students",
+    language: "English",
+    level: "Beginner",
+    lastUpdated: "October 2026",
+    certificate: "Certificate",
+    access: "Lifetime access",
+  },
+
   progress: {
     percentage: 63,
     studentLabel: "You",
@@ -47,73 +58,153 @@ export const courseData: CourseInfo = {
   curriculum: [
     {
       id: "sec-1",
-      title: "Course Introduction",
+      title: "Week 1–4",
+      description: "Introduction to the course and its key concepts.",
       lessons: [
         {
           id: "l-1",
-          title: "Welcome to the Course",
-          duration: "05:20",
-          status: "completed",
+          title: "Introduction",
+
+          status: "locked",
+          type: "pdf",
         },
         {
           id: "l-2",
-          title: "Setting Up Your Environment",
-          duration: "12:10",
-          status: "completed",
+          title: "Course Overview",
+
+          status: "locked",
+          type: "pdf",
         },
         {
           id: "l-3",
-          title: "Project Structure",
-          duration: "08:45",
-          status: "current",
+          title: "Course Overview Questions",
+          duration: "10 MINUTES",
+          status: "locked",
+          type: "quiz",
+          questionCount: 3,
         },
         {
           id: "l-4",
-          title: "The App Router",
-          duration: "15:30",
+          title: "Course Exercises / Reference Files",
+
           status: "locked",
+          type: "pdf",
+        },
+        {
+          id: "l-5",
+          title: "Code Editor Installation",
+
+          status: "locked",
+          type: "pdf",
+        },
+        {
+          id: "l-6",
+          title: "PHP in HTML",
+
+          status: "locked",
+          type: "pdf",
         },
       ],
     },
     {
       id: "sec-2",
-      title: "Server Components",
+      title: "Week 5–8",
+      description:
+        "Advanced storytelling techniques for writers: personas, characters, and plots.",
       lessons: [
         {
-          id: "l-5",
-          title: "What Are Server Components?",
-          duration: "10:15",
-          status: "locked",
-        },
-        {
-          id: "l-6",
-          title: "Streaming and Suspense",
-          duration: "18:00",
-          status: "locked",
-        },
-        {
           id: "l-7",
-          title: "Data Fetching",
-          duration: "22:40",
+          title: "Defining Functions",
+
           status: "locked",
+          type: "pdf",
+        },
+        {
+          id: "l-8",
+          title: "Function Parameters",
+
+          status: "locked",
+          type: "pdf",
+        },
+        {
+          id: "l-9",
+          title: "Return Values from Functions",
+          duration: "15 MINUTES",
+          status: "locked",
+          type: "quiz",
+          questionCount: 2,
+        },
+        {
+          id: "l-10",
+          title: "Global Variables and Scope",
+
+          status: "locked",
+          type: "pdf",
+        },
+        {
+          id: "l-11",
+          title: "The New Way to Create Constants",
+
+          status: "locked",
+          type: "pdf",
+        },
+        {
+          id: "l-12",
+          title: "Constants",
+
+          status: "locked",
+          type: "pdf",
         },
       ],
     },
     {
       id: "sec-3",
-      title: "Client Components",
+      title: "Week 5–8",
+      description:
+        "Advanced storytelling techniques for writers: personas, characters, and plots.",
       lessons: [
         {
-          id: "l-8",
-          title: "When to Use Client Components",
-          duration: "09:55",
+          id: "l-7",
+          title: "Defining Functions",
+
           status: "locked",
+          type: "pdf",
+        },
+        {
+          id: "l-8",
+          title: "Function Parameters",
+
+          status: "locked",
+          type: "pdf",
         },
         {
           id: "l-9",
-          title: "Managing State",
-          duration: "14:20",
+          title: "Return Values from Functions",
+          duration: "15 MINUTES",
           status: "locked",
+          type: "quiz",
+          questionCount: 2,
+        },
+        {
+          id: "l-10",
+          title: "Global Variables and Scope",
+
+          status: "locked",
+          type: "pdf",
+        },
+        {
+          id: "l-11",
+          title: "The New Way to Create Constants",
+
+          status: "locked",
+          type: "pdf",
+        },
+        {
+          id: "l-12",
+          title: "Constants",
+
+          status: "locked",
+          type: "pdf",
         },
       ],
     },
@@ -204,19 +295,19 @@ export const courseData: CourseInfo = {
   comments: [
     {
       id: "c-1",
-      authorName: "Student Name Goes Here",
-      text: "Excellent explanation! I learned a lot from this lesson. Thank you.",
+      authorName: "Mohamed",
+      text: "Excellent explanation! I learned a lot from this lesson. Thank you, Excellent explanation! I learned a lot from this lesson. Thank you.",
       timeAgo: "2 hours ago",
     },
     {
       id: "c-2",
-      authorName: "Student Name Goes Here",
+      authorName: "Ahemd",
       text: "Question: Can Next.js be used with Django as a backend?",
       timeAgo: "5 hours ago",
     },
     {
       id: "c-3",
-      authorName: "Student Name Goes Here",
+      authorName: "Abdullah",
       text: "The explanation is clear and simple. I’d love to see a more detailed example.",
       timeAgo: "1 day ago",
     },
