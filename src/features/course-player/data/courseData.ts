@@ -7,25 +7,25 @@ export const motivationalMessages: MotivationalMessage[] = [
     tier: "top10",
     // Placeholder message
     message:
-      "Amazing work! You’re in the top 10% of students. Your rewards are waiting—keep it up! 🏆",
+      "عمل رائع! أنت ضمن أفضل 10% من الطلاب. مكافآتك بانتظارك—استمر في هذا الأداء المتميز! 🏆",
   },
   {
     tier: "top30",
     // Placeholder
     message:
-      "Great job! You’re in the top 30% of students. You’re getting closer to the top—keep going! 🎯",
+      "جهد ممتاز! أنت ضمن أفضل 30% من الطلاب. تقترب أكثر فأكثر من القمة—واصل التقدم! 🎯",
   },
   {
     tier: "mid60",
     // Encouragement for students in the middle performance tier
     message:
-      "Great work! You’re doing better than 60% of students in this course. Keep going—I want to see your name at the top of the leaderboard! 💪",
+      "أداء رائع! أنت أفضل من 60% من الطلاب في هذه الدورة. واصل السعي—أريد أن أرى اسمك في صدارة القائمة! 💪",
   },
   {
     tier: "low",
     // Placeholder
     message:
-      "Ready to make progress? Start working through the exercises and you’ll feel the difference. I believe in you! 💪",
+      "مستعد لتحقيق التقدم؟ ابدأ في حل التمارين وستلاحظ الفرق بنفسك. أنا أؤمن بقدراتك! 💪",
   },
 ];
 
