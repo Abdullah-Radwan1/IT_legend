@@ -1,39 +1,39 @@
 import type { CourseInfo, MotivationalMessage } from "../models";
 
-// ── Motivational messages (typed, Egyptian Arabic) ──────────────────────────
+// ── Motivational messages ──────────────────────────────────────────────────
 
 export const motivationalMessages: MotivationalMessage[] = [
   {
     tier: "top10",
-    // Placeholder – replace with م. علي شاهين's actual copy
+    // Placeholder message
     message:
-      "ماشاء الله عليك! إنت في أحسن 10% من الطلبة.. الجوائز بتاعتك في انتظارك. استمر وما تقفش! 🏆",
+      "Amazing work! You’re in the top 10% of students. Your rewards are waiting—keep it up! 🏆",
   },
   {
     tier: "top30",
     // Placeholder
     message:
-      "برافو عليك! إنت في أحسن 30% من الطلبة.. قرّب أكتر من القمة. كمّل كده وهتوصل! 🎯",
+      "Great job! You’re in the top 30% of students. You’re getting closer to the top—keep going! 🎯",
   },
   {
     tier: "mid60",
-    // Exact copy from spec
+    // Encouragement for students in the middle performance tier
     message:
-      "عظيم يا صديقي.. أداءك في الكورس ده أفضل من 60% من باقي الطلبة.. كمّل عايز أشوف اسمك في الليدر بورد هنا 💪",
+      "Great work! You’re doing better than 60% of students in this course. Keep going—I want to see your name at the top of the leaderboard! 💪",
   },
   {
     tier: "low",
     // Placeholder
     message:
-      "إيه ده يا صاحبي! هتخليني أزعل منك؟ تعالى نتحرك وابدأ تحل التمارين وهتحس بالفرق بسرعة. أنا واثق فيك! 😤",
+      "Ready to make progress? Start working through the exercises and you’ll feel the difference. I believe in you! 💪",
   },
 ];
 
 // ── Main mock data ───────────────────────────────────────────────────────────
 
 export const courseData: CourseInfo = {
-  title: "تعلم Next.js من الصفر للاحتراف",
-  instructor: "م. علي شاهين",
+  title: "Learn Next.js: From Beginner to Pro",
+  instructor: "Ali Shaheen",
 
   // Use a freely available Big Buck Bunny sample clip
   videoSrc:
@@ -41,35 +41,35 @@ export const courseData: CourseInfo = {
 
   progress: {
     percentage: 63,
-    studentLabel: "إنت",
+    studentLabel: "You",
   },
 
   curriculum: [
     {
       id: "sec-1",
-      title: "مقدمة الكورس",
+      title: "Course Introduction",
       lessons: [
         {
           id: "l-1",
-          title: "مرحباً بك في الكورس",
+          title: "Welcome to the Course",
           duration: "05:20",
           status: "completed",
         },
         {
           id: "l-2",
-          title: "إعداد البيئة",
+          title: "Setting Up Your Environment",
           duration: "12:10",
           status: "completed",
         },
         {
           id: "l-3",
-          title: "هيكل المشروع",
+          title: "Project Structure",
           duration: "08:45",
           status: "current",
         },
         {
           id: "l-4",
-          title: "الـ App Router",
+          title: "The App Router",
           duration: "15:30",
           status: "locked",
         },
@@ -77,17 +77,17 @@ export const courseData: CourseInfo = {
     },
     {
       id: "sec-2",
-      title: "الـ Server Components",
+      title: "Server Components",
       lessons: [
         {
           id: "l-5",
-          title: "ما هي الـ Server Components؟",
+          title: "What Are Server Components?",
           duration: "10:15",
           status: "locked",
         },
         {
           id: "l-6",
-          title: "Streaming و Suspense",
+          title: "Streaming and Suspense",
           duration: "18:00",
           status: "locked",
         },
@@ -101,17 +101,17 @@ export const courseData: CourseInfo = {
     },
     {
       id: "sec-3",
-      title: "الـ Client Components",
+      title: "Client Components",
       lessons: [
         {
           id: "l-8",
-          title: "متى نستخدم Client Components؟",
+          title: "When to Use Client Components",
           duration: "09:55",
           status: "locked",
         },
         {
           id: "l-9",
-          title: "إدارة الـ State",
+          title: "Managing State",
           duration: "14:20",
           status: "locked",
         },
@@ -122,18 +122,18 @@ export const courseData: CourseInfo = {
   materials: [
     {
       id: "mat-1",
-      title: "ملخص الوحدة الأولى – PDF",
+      title: "Module 1 Summary – PDF",
       type: "pdf",
       url: "https://www.w3.org/WAI/WCAG21/Techniques/pdf/PDF2.pdf",
     },
     {
       id: "mat-2",
-      title: "اختبار الوحدة الأولى",
+      title: "Module 1 Exam",
       type: "exam",
     },
     {
       id: "mat-3",
-      title: "مصادر إضافية عن Next.js",
+      title: "Additional Next.js Resources",
       type: "link",
       url: "https://nextjs.org/docs",
     },
@@ -141,11 +141,11 @@ export const courseData: CourseInfo = {
 
   exam: {
     id: "exam-1",
-    title: "اختبار الوحدة الأولى – Next.js",
+    title: "Module 1 Exam – Next.js",
     questions: [
       {
         id: "q-1",
-        text: "ما هو الـ framework الذي نستخدمه في هذا الكورس؟",
+        text: "Which framework are we using in this course?",
         options: [
           { id: "q1-a", text: "Nuxt.js" },
           { id: "q1-b", text: "Next.js" },
@@ -156,40 +156,40 @@ export const courseData: CourseInfo = {
       },
       {
         id: "q-2",
-        text: "أي من التالي يُعدّ ميزة رئيسية في Next.js 16؟",
+        text: "Which of the following is a key feature of Next.js 16?",
         options: [
-          { id: "q2-a", text: "الـ App Router مع Server Components" },
-          { id: "q2-b", text: "استخدام jQuery" },
-          { id: "q2-c", text: "اعتماد PHP للـ rendering" },
-          { id: "q2-d", text: "لا يدعم TypeScript" },
+          { id: "q2-a", text: "The App Router with Server Components" },
+          { id: "q2-b", text: "Using jQuery" },
+          { id: "q2-c", text: "Using PHP for rendering" },
+          { id: "q2-d", text: "It does not support TypeScript" },
         ],
         correctOptionId: "q2-a",
       },
       {
         id: "q-3",
-        text: "ما الامتداد المستخدم لملفات TypeScript في Next.js؟",
+        text: "Which file extensions are used for TypeScript in Next.js?",
         options: [
-          { id: "q3-a", text: ".ts فقط" },
+          { id: "q3-a", text: ".ts only" },
           { id: "q3-b", text: ".jsx" },
-          { id: "q3-c", text: ".ts و .tsx" },
+          { id: "q3-c", text: ".ts and .tsx" },
           { id: "q3-d", text: ".tfx" },
         ],
         correctOptionId: "q3-c",
       },
       {
         id: "q-4",
-        text: "أين توضع ملفات الـ layout في App Router؟",
+        text: "Where do layout files go in the App Router?",
         options: [
-          { id: "q4-a", text: "في مجلد /pages" },
-          { id: "q4-b", text: "في مجلد /app كملف layout.tsx" },
-          { id: "q4-c", text: "في مجلد /public" },
-          { id: "q4-d", text: "في ملف next.config.ts" },
+          { id: "q4-a", text: "In the /pages directory" },
+          { id: "q4-b", text: "In the /app directory as layout.tsx" },
+          { id: "q4-c", text: "In the /public directory" },
+          { id: "q4-d", text: "In next.config.ts" },
         ],
         correctOptionId: "q4-b",
       },
       {
         id: "q-5",
-        text: "ماذا يعني الـ SSR في Next.js؟",
+        text: "What does SSR mean in Next.js?",
         options: [
           { id: "q5-a", text: "Simple Style Rendering" },
           { id: "q5-b", text: "Server-Side Rendering" },
@@ -205,36 +205,36 @@ export const courseData: CourseInfo = {
     {
       id: "c-1",
       authorName: "Student Name Goes Here",
-      text: "شرح ممتاز! استفدت كتير من الدرس ده. شكراً جزيلاً.",
-      timeAgo: "منذ ساعتين",
+      text: "Excellent explanation! I learned a lot from this lesson. Thank you.",
+      timeAgo: "2 hours ago",
     },
     {
       id: "c-2",
       authorName: "Student Name Goes Here",
-      text: "سؤال: هل يمكن استخدام Next.js مع Django كـ backend؟",
-      timeAgo: "منذ 5 ساعات",
+      text: "Question: Can Next.js be used with Django as a backend?",
+      timeAgo: "5 hours ago",
     },
     {
       id: "c-3",
       authorName: "Student Name Goes Here",
-      text: "الشرح واضح وبسيط، بس كنت بتمنى لو في مثال أكتر تفصيلاً.",
-      timeAgo: "منذ يوم",
+      text: "The explanation is clear and simple. I’d love to see a more detailed example.",
+      timeAgo: "1 day ago",
     },
   ],
 
   leaderboard: [
-    { rank: 1, name: "أحمد محمد", score: 980, isCurrentStudent: false },
-    { rank: 2, name: "سارة يوسف", score: 965, isCurrentStudent: false },
-    { rank: 3, name: "محمود علي", score: 948, isCurrentStudent: false },
-    { rank: 4, name: "نور حسن", score: 920, isCurrentStudent: false },
-    { rank: 5, name: "خالد إبراهيم", score: 905, isCurrentStudent: false },
-    { rank: 6, name: "ريم أحمد", score: 890, isCurrentStudent: false },
-    { rank: 7, name: "عمر فاروق", score: 875, isCurrentStudent: false },
-    { rank: 8, name: "ليلى سعد", score: 860, isCurrentStudent: false },
-    { rank: 9, name: "طارق نبيل", score: 844, isCurrentStudent: false },
-    { rank: 10, name: "أنت", score: 820, isCurrentStudent: true },
-    { rank: 11, name: "دينا حلمي", score: 800, isCurrentStudent: false },
-    { rank: 12, name: "يوسف منصور", score: 785, isCurrentStudent: false },
+    { rank: 1, name: "Alex Morgan", score: 980, isCurrentStudent: false },
+    { rank: 2, name: "Sophie Taylor", score: 965, isCurrentStudent: false },
+    { rank: 3, name: "James Carter", score: 948, isCurrentStudent: false },
+    { rank: 4, name: "Olivia Bennett", score: 920, isCurrentStudent: false },
+    { rank: 5, name: "Liam Parker", score: 905, isCurrentStudent: false },
+    { rank: 6, name: "Emma Collins", score: 890, isCurrentStudent: false },
+    { rank: 7, name: "Noah Wilson", score: 875, isCurrentStudent: false },
+    { rank: 8, name: "Mia Johnson", score: 860, isCurrentStudent: false },
+    { rank: 9, name: "Ethan Brooks", score: 844, isCurrentStudent: false },
+    { rank: 10, name: "You", score: 820, isCurrentStudent: true },
+    { rank: 11, name: "Ava Mitchell", score: 800, isCurrentStudent: false },
+    { rank: 12, name: "Lucas Reed", score: 785, isCurrentStudent: false },
   ],
 
   motivationalMessages,

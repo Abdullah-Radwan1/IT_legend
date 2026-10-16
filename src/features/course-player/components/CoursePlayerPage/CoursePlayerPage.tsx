@@ -36,7 +36,7 @@ export default function CoursePlayerPage({ data }: CoursePlayerPageProps) {
       {/* ── Main content ──────────────────────────────────────────────────── */}
       <main className={`min-h-dvh bg-[var(--color-bg)] lg:mx-auto lg:max-w-[1304px] lg:px-[38px] lg:pb-[var(--space-12)] lg:pt-[var(--space-4)] ${isTheater ? "lg:[&_.player-wrapper]:!w-full lg:[&_.desktop-sidebar]:!hidden lg:[&_.top-section]:block lg:[&_.curriculum-mobile]:!block" : ""}`}>
         {/* Top section: video + curriculum sidebar (desktop: side by side, mobile: stacked) */}
-        <section className="top-section lg:mb-[var(--space-6)] lg:flex lg:items-start lg:gap-[var(--space-6)]" aria-label="مشغل الكورس">
+        <section className="top-section lg:mb-[var(--space-6)] lg:flex lg:items-start lg:gap-[var(--space-6)]" aria-label="Course player">
           {/* Video player */}
           <div className="player-wrapper lg:w-[799px] lg:shrink-0">
             <VideoPlayer

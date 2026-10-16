@@ -19,26 +19,26 @@ export default function NavBar({ courseName, instructor }: NavBarProps) {
 
         {/* Course info */}
         <div className="flex flex-1 flex-col items-center gap-0.5">
-          <span className="text-center font-[family-name:var(--font-arabic)] text-[0.9rem] font-bold text-[var(--color-brand-dark)]">{courseName}</span>
-          <span className="font-[family-name:var(--font-arabic)] text-[0.8rem] font-light text-[var(--color-text-muted)]">{instructor}</span>
+          <span className="text-center font-[family-name:var(--font-latin)] text-[0.9rem] font-bold text-[var(--color-brand-dark)]">{courseName}</span>
+          <span className="font-[family-name:var(--font-latin)] text-[0.8rem] font-light text-[var(--color-text-muted)]">{instructor}</span>
         </div>
 
         {/* Navigation links */}
         <nav aria-label="Navigation links">
           <ul className="flex shrink-0 items-center gap-[var(--space-6)]">
             <li>
-              <a href="#" className="font-[family-name:var(--font-arabic)] text-sm font-light text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-brand-primary)]">
-                الرئيسية
+              <a href="#" className="font-[family-name:var(--font-latin)] text-sm font-light text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-brand-primary)]">
+                Home
               </a>
             </li>
             <li>
-              <a href="#" className="font-[family-name:var(--font-arabic)] text-sm font-light text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-brand-primary)]">
-                كوراساتي
+              <a href="#" className="font-[family-name:var(--font-latin)] text-sm font-light text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-brand-primary)]">
+                My courses
               </a>
             </li>
             <li>
-              <a href="#" className="font-[family-name:var(--font-arabic)] text-sm font-light text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-brand-primary)]">
-                تواصل معنا
+              <a href="#" className="font-[family-name:var(--font-latin)] text-sm font-light text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-brand-primary)]">
+                Contact us
               </a>
             </li>
           </ul>

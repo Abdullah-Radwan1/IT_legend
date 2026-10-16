@@ -169,7 +169,7 @@ export default function VideoPlayer({
       className={`player relative aspect-video w-full overflow-hidden bg-black max-lg:sticky max-lg:top-0 max-lg:z-[80] max-lg:max-h-[240px] lg:h-[527px] lg:w-[799px] lg:shrink-0 lg:aspect-auto lg:rounded-[var(--radius-sm)] ${isTheater ? "lg:h-auto lg:aspect-video lg:w-full" : ""}`}
       onMouseMove={handleMouseMove}
       onMouseLeave={() => isPlaying && setShowControls(false)}
-      aria-label={`مشغل الفيديو: ${title}`}
+      aria-label={`Video player: ${title}`}
     >
       {/* Video element */}
       <video
@@ -188,7 +188,7 @@ export default function VideoPlayer({
       <button
         className={`absolute inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.25)] text-white transition-opacity [&_svg]:size-14 [&_svg]:[filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.5))] lg:[&_svg]:size-[72px] ${isPlaying ? "pointer-events-none opacity-0" : ""}`}
         onClick={handlePlayPause}
-        aria-label={isPlaying ? "إيقاف مؤقت" : "تشغيل"}
+        aria-label={isPlaying ? "Pause" : "Play"}
         tabIndex={-1}
       >
         {!isPlaying && (
@@ -202,7 +202,7 @@ export default function VideoPlayer({
       <div
         className={`pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.75)] px-[var(--space-4)] py-[var(--space-3)] opacity-0 transition-opacity ${showControls ? "pointer-events-auto opacity-100" : ""}`}
         role="group"
-        aria-label="التحكم في الفيديو"
+        aria-label="Video controls"
       >
         {/* Progress bar */}
         <div className="mb-[var(--space-2)]">
@@ -215,7 +215,7 @@ export default function VideoPlayer({
             value={currentTime}
             onChange={handleSeek}
             className={rangeClass}
-            aria-label="شريط التقدم"
+            aria-label="Playback progress"
             style={
               { "--pct": `${progressPercent}%` } as React.CSSProperties
             }
@@ -229,7 +229,7 @@ export default function VideoPlayer({
             {/* Play/Pause */}
             <button
               onClick={handlePlayPause}
-              aria-label={isPlaying ? "إيقاف مؤقت" : "تشغيل"}
+              aria-label={isPlaying ? "Pause" : "Play"}
               className={iconButtonClass}
             >
               {isPlaying ? (
@@ -253,7 +253,7 @@ export default function VideoPlayer({
             {/* Volume */}
             <button
               onClick={handleMuteToggle}
-              aria-label={isMuted ? "تفعيل الصوت" : "كتم الصوت"}
+              aria-label={isMuted ? "Unmute" : "Mute"}
               className={iconButtonClass}
             >
               {isMuted || volume === 0 ? (
@@ -306,7 +306,7 @@ export default function VideoPlayer({
               value={isMuted ? 0 : volume}
               onChange={handleVolumeChange}
               className={`${rangeClass} w-[72px] shrink-0 max-lg:hidden`}
-              aria-label="مستوى الصوت"
+              aria-label="Volume"
               style={
                 {
                   "--pct": `${(isMuted ? 0 : volume) * 100}%`,
@@ -315,7 +315,7 @@ export default function VideoPlayer({
             />
 
             {/* Time */}
-            <time className="whitespace-nowrap font-[family-name:var(--font-latin-body)] text-xs font-medium text-white" dateTime={`PT${Math.floor(currentTime)}S`} dir="ltr">
+            <time className="whitespace-nowrap font-[family-name:var(--font-latin)] text-xs font-medium text-[var(--color-time)]" dateTime={`PT${Math.floor(currentTime)}S`}>
               {formatTime(currentTime)} / {formatTime(duration)}
             </time>
           </div>
@@ -325,7 +325,7 @@ export default function VideoPlayer({
             {/* Theater mode – desktop only */}
             <button
               onClick={handleTheater}
-              aria-label={isTheater ? "وضع عادي" : "وضع المسرح"}
+              aria-label={isTheater ? "Exit theater mode" : "Theater mode"}
               className={`${iconButtonClass} max-lg:hidden`}
               aria-pressed={isTheater}
             >
@@ -369,7 +369,7 @@ export default function VideoPlayer({
             {/* Fullscreen */}
             <button
               onClick={handleFullscreen}
-              aria-label="ملء الشاشة"
+              aria-label="Fullscreen"
               className={iconButtonClass}
             >
               <svg viewBox="0 0 24 24" aria-hidden="true">

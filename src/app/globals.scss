@@ -3,63 +3,6 @@
 // Design tokens, resets, and base typography
 // ──────────────────────────────────────────────────────────────────────────────
 
-// ── Custom Fonts ──────────────────────────────────────────────────────────────
-
-// GE SS Two (Arabic) – served from /public/fonts/
-// NOTE: Place the actual font files in public/fonts/ (see README for details)
-// As a fallback the stack degrades gracefully to system Arabic fonts.
-@font-face {
-  font-family: "GE SS Two";
-  src: url("/fonts/GESSTwo-Light.woff2") format("woff2"),
-    url("/fonts/GESSTwo-Light.woff") format("woff");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "GE SS Two";
-  src: url("/fonts/GESSTwo-Bold.woff2") format("woff2"),
-    url("/fonts/GESSTwo-Bold.woff") format("woff");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-// League Spartan (EN/numbers)
-@font-face {
-  font-family: "League Spartan";
-  src: url("/fonts/LeagueSpartan-Light.woff2") format("woff2");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "League Spartan";
-  src: url("/fonts/LeagueSpartan-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "League Spartan";
-  src: url("/fonts/LeagueSpartan-SemiBold.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-// Inter (EN medium)
-@font-face {
-  font-family: "Inter";
-  src: url("/fonts/Inter-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
 // ── Design Tokens ─────────────────────────────────────────────────────────────
 
 :root {
@@ -70,21 +13,23 @@
   --color-border: #e1e3e1;
   --color-border-light: #e8eae8;
 
-  --color-text-primary: #000000;
-  --color-text-secondary: #363636;
+  --color-text-primary: #181818;
+  --color-text-secondary: #181818;
   --color-text-muted: #6c6c6c;
   --color-text-placeholder: #939393;
-  --color-text-dark: #18181e;
+  --color-text-dark: #181818;
 
   --color-brand-primary: #182578;
-  --color-brand-dark: #080264;
+  --color-brand-dark: #181818;
   --color-brand-accent: #485293;
 
   --color-progress-bg: #e6e6e6;
   --color-progress-fill: #6abd8a;
   --color-progress-marker: #c8c8c8;
 
-  --color-danger: #e71b1b;
+  --color-success: #41b69d;
+  --color-time: #e7647e;
+  --color-danger: #e7647e;
 
   // Spacing scale
   --space-1: 4px;
@@ -98,10 +43,7 @@
   --space-12: 48px;
 
   // Typography
-  --font-arabic: "GE SS Two", "Noto Kufi Arabic", "Noto Sans Arabic",
-    "Cairo", system-ui, sans-serif;
   --font-latin: "League Spartan", system-ui, sans-serif;
-  --font-latin-body: "Inter", system-ui, sans-serif;
 
   // Shadows
   --shadow-card: 0 0 30.5px 15px rgba(0, 0, 0, 0.04);
@@ -128,80 +70,80 @@
 // ── Reset & Base ──────────────────────────────────────────────────────────────
 
 @layer base {
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-
-  @media (prefers-reduced-motion: reduce) {
-    scroll-behavior: auto;
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
-}
 
-body {
-  font-family: var(--font-arabic);
-  font-weight: 300;
-  background-color: var(--color-bg);
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  direction: rtl;
-  text-align: right;
-}
+  html {
+    scroll-behavior: smooth;
 
-// Remove default list styles
-ul,
-ol {
-  list-style: none;
-}
+    @media (prefers-reduced-motion: reduce) {
+      scroll-behavior: auto;
+    }
+  }
 
-// Image defaults
-img,
-video {
-  display: block;
-  max-inline-size: 100%;
-}
+  body {
+    font-family: var(--font-latin);
+    font-weight: 300;
+    background-color: var(--color-bg);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    direction: ltr;
+    text-align: left;
+  }
 
-// Button reset
-button {
-  cursor: pointer;
-  border: none;
-  background: none;
-  font: inherit;
-  color: inherit;
-}
+  // Remove default list styles
+  ul,
+  ol {
+    list-style: none;
+  }
 
-// Link reset
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  // Image defaults
+  img,
+  video {
+    display: block;
+    max-inline-size: 100%;
+  }
 
-// ── Accessibility ─────────────────────────────────────────────────────────────
+  // Button reset
+  button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font: inherit;
+    color: inherit;
+  }
 
-:focus-visible {
-  outline: 3px solid var(--color-brand-accent);
-  outline-offset: 2px;
-}
+  // Link reset
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-// Screen-reader only utility
-.sr-only {
-  position: absolute;
-  inline-size: 1px;
-  block-size: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
+  // ── Accessibility ─────────────────────────────────────────────────────────
+
+  :focus-visible {
+    outline: 3px solid var(--color-brand-accent);
+    outline-offset: 2px;
+  }
+
+  // Screen-reader only utility
+  .sr-only {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
 }
 
 // ── Modal Overlay ─────────────────────────────────────────────────────────────
