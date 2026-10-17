@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+
 interface PdfModalProps {
   url: string;
   onClose: () => void;
@@ -20,11 +21,15 @@ export default function PdfModal({ url, onClose }: PdfModalProps) {
       // Trap focus inside modal
       if (e.key === "Tab" && dialogRef.current) {
         const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
         );
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
-        if (e.shiftKey ? document.activeElement === first : document.activeElement === last) {
+        if (
+          e.shiftKey
+            ? document.activeElement === first
+            : document.activeElement === last
+        ) {
           e.preventDefault();
           (e.shiftKey ? last : first).focus();
         }
@@ -42,7 +47,7 @@ export default function PdfModal({ url, onClose }: PdfModalProps) {
 
   return (
     <div
-      className="modal-overlay"
+      className="modal-overlay flex items-center justify-center"
       onClick={(e) => e.target === e.currentTarget && onClose()}
       role="presentation"
     >
@@ -51,10 +56,10 @@ export default function PdfModal({ url, onClose }: PdfModalProps) {
         role="dialog"
         aria-modal="true"
         aria-label="View PDF"
-        className="flex h-[min(92vh,800px)] w-[min(96vw,1000px)] flex-col overflow-hidden rounded-[var(--radius-lg)] bg-surface-card shadow-[var(--shadow-modal)] animate-[slideUp_var(--transition-base)_both]"
+        className="flex h-screen w-screen flex-col overflow-hidden bg-surface-card shadow-none animate-[fadeIn_var(--transition-base)_both]"
       >
         {/* Header */}
-        <div className="flex shrink-0 items-center justify-between border-b border-border px-[var(--space-5)] py-[var(--space-4)]">
+        <div className="flex shrink-0 items-center justify-between border-b border-border px-6 py-4">
           <h2 className="text-base font-bold">PDF document</h2>
           <button
             ref={closeRef}
@@ -62,7 +67,13 @@ export default function PdfModal({ url, onClose }: PdfModalProps) {
             aria-label="Close"
             className="flex size-9 items-center justify-center rounded-[var(--radius-md)] text-muted transition-colors hover:bg-surface hover:text-foreground [&_svg]:size-5"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden="true"
+            >
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
@@ -71,11 +82,7 @@ export default function PdfModal({ url, onClose }: PdfModalProps) {
 
         {/* PDF iframe */}
         <div className="flex-1 overflow-hidden">
-          <iframe
-            src={url}
-            className="size-full border-0"
-            title="View PDF"
-          />
+          <iframe src={url} className="size-full border-0" title="View PDF" />
         </div>
       </div>
     </div>

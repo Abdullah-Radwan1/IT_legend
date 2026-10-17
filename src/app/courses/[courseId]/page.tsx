@@ -3,9 +3,19 @@
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getCourseById } from "@/features/course-player/data/allCoursesData";
+import {
+  getCourseById,
+  allCourses, // ← replace with whatever your data file exports (the full list of courses)
+} from "@/features/course-player/data/allCoursesData";
 import CoursePlayerPage from "@/features/course-player/components/CoursePlayerPage/CoursePlayerPage";
 import Breadcrumb from "@/features/course-player/components/Breadcrumb/Breadcrumb";
+
+// ── Static params ──────────────────────────────────────────────────────────
+// Tells Next which courseIds exist at build time so the route can be prerendered.
+
+export function generateStaticParams() {
+  return allCourses.map((course) => ({ courseId: String(course.id) }));
+}
 
 // ── Metadata ───────────────────────────────────────────────────────────────
 

@@ -20,11 +20,11 @@ export default function ActionBar({
     "group flex min-w-0 flex-col items-center justify-center text-muted py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2";
 
   const iconClass =
-    "flex size-10 items-center justify-center rounded-full border border-border transition-all duration-200 group-hover:border-brand-primary group-hover:bg-brand-primary/5 group-hover:text-brand-primary group-hover:shadow-sm group-active:scale-95 [&_svg]:size-4";
+    "flex size-12 items-center justify-center rounded-full border border-border transition-all duration-200 group-hover:border-brand-primary group-hover:bg-brand-primary/5 group-hover:text-brand-primary group-hover:shadow-sm group-active:scale-95 [&_svg]:size-4";
 
   return (
     <nav className="w-full " aria-label="Course tools">
-      <div className="flex gap-2 sm:gap-6">
+      <div className="flex gap-2 sm:gap-4">
         {/* Curriculum */}
         <button
           type="button"

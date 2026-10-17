@@ -7,6 +7,7 @@ import type {
   PerformanceTier,
   CourseProgress,
 } from "../../models";
+
 interface LeaderboardModalProps {
   courseName: string;
   entries: LeaderboardEntry[];
@@ -75,12 +76,12 @@ export default function LeaderboardModal({
         role="dialog"
         aria-modal="true"
         aria-label="Leaderboard"
-        className="flex max-h-[90vh] w-[min(96vw,480px)] flex-col overflow-hidden rounded-[var(--radius-lg)] bg-surface-card shadow-[var(--shadow-modal)] animate-[slideUp_var(--transition-base)_both]"
+        className="flex max-h-[90vh] w-[min(96vw,480px)] m-2 flex-col overflow-hidden rounded-[var(--radius-lg)] bg-surface-card shadow-[var(--shadow-modal)] animate-[slideUp_var(--transition-base)_both]"
       >
         {/* Header */}
         <div className="flex shrink-0 items-center justify-between px-6 py-4 border-b border-border-light text-center">
           <div className="flex flex-col items-center flex-1 gap-0.5">
-            <span className="text-xs font-light text-brand-primary">
+            <span className="text-lg font-light text-brand-primary">
               {courseName}
             </span>
             <span className="text-xl font-semibold text-brand-primary">
@@ -109,21 +110,17 @@ export default function LeaderboardModal({
 
         {/* Motivational message */}
         <div className="shrink-0 px-6 py-3 text-center" aria-live="polite">
-          <p className="text-base font-medium leading-[1.7] text-brand-accent bg-brand-accent/10 rounded p-2 my-6">
+          <p className="text-base font-medium leading-[1.7] text-brand-accent bg-bg-light rounded p-2 my-6">
             {motivMessage} 💪
           </p>
         </div>
 
         {/* Leaderboard cards */}
-        <div className="flex-1 space-y-3 overflow-y-auto bg-brand-accent/10 p-[var(--space-4)]">
+        <div className="flex-1 space-y-3 overflow-y-auto bg-bg-light p-[var(--space-4)] m-6 rounded-2xl">
           {entries.map((entry) => (
             <div
               key={entry.rank}
-              className={`flex items-center gap-3 rounded-[var(--radius-md)] border p-3 transition-colors ${
-                entry.isCurrentStudent
-                  ? "border-brand-primary/30 bg-brand-primary/5"
-                  : "border-border-light bg-surface hover:bg-surface-card"
-              }`}
+              className="flex items-center justify-center gap-4 rounded-md bg-white p-3 text-center transition-colors"
               aria-label={
                 entry.isCurrentStudent
                   ? `${entry.name}, your current rank ${entry.rank}`
@@ -144,7 +141,7 @@ export default function LeaderboardModal({
               </div>
 
               {/* Student name */}
-              <div className="min-w-0 flex-1">
+              <div className="flex flex-col items-center min-w-0 flex-1">
                 <p
                   className={`truncate text-sm ${
                     entry.isCurrentStudent

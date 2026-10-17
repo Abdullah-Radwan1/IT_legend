@@ -10,6 +10,8 @@ import CourseMaterials from "../CourseMaterials/CourseMaterials";
 import CommentsSection from "../CommentsSection/CommentsSection";
 import AskQuestionModal from "../AskQuestionModal/AskQuestionModal";
 import LeaderboardModal from "../LeaderboardModal/LeaderboardModal";
+import ExamModal from "../ExamModal/ExamModal";
+import PdfModal from "../PdfModal/PdfModal";
 
 interface CoursePlayerPageProps {
   data: CourseInfo;
@@ -24,17 +26,24 @@ export default function CoursePlayerPage({
   const [isTheater, setIsTheater] = useState(false);
   const [askOpen, setAskOpen] = useState(false);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
+  const [activeModal, setActiveModal] = useState<
+    { type: "pdf"; url: string } | { type: "exam" } | null
+  >(null);
+  const pdfUrl = data.materials.find(
+    (material) => material.type === "pdf" && material.url
+  )?.url;
 
   return (
     <>
       {/* Desktop navigation */}
-
-      {/* ── Main content ──────────────────────────────────────────────────── */}
-      <main className="min-h-dvh bg-bg lg:mx-auto lg:max-w-326  p-2 lg:px-9.5 lg:pb-12 lg:pt-4">
-        {/* Breadcrumb – only shown when provided */}
+      <header className="bg-bg-light py-2 px-12">
         {breadcrumb}
 
         <h1 className="text-5xl font-medium py-2">{data.title}</h1>
+      </header>
+      {/* ── Main content ──────────────────────────────────────────────────── */}
+      <main className="min-h-dvh lg:px-12 px-8 py-6">
+        {/* Breadcrumb – only shown when provided */}
 
         <div
           className={`flex flex-col lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-start lg:gap-x-8 ${
@@ -65,7 +74,15 @@ export default function CoursePlayerPage({
           </div>
           {/* right side  */}
 
-          <Curriculum sections={data.curriculum} />
+          <Curriculum
+            sections={data.curriculum}
+            onOpenPdf={
+              pdfUrl
+                ? () => setActiveModal({ type: "pdf", url: pdfUrl })
+                : undefined
+            }
+            onOpenExam={() => setActiveModal({ type: "exam" })}
+          />
         </div>
       </main>
 
@@ -79,6 +96,18 @@ export default function CoursePlayerPage({
           messages={data.motivationalMessages}
           progress={data.progress}
           onClose={() => setLeaderboardOpen(false)}
+        />
+      )}
+      {activeModal?.type === "pdf" && (
+        <PdfModal
+          url={activeModal.url}
+          onClose={() => setActiveModal(null)}
+        />
+      )}
+      {activeModal?.type === "exam" && (
+        <ExamModal
+          exam={data.exam}
+          onClose={() => setActiveModal(null)}
         />
       )}
     </>

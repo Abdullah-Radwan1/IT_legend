@@ -29,16 +29,6 @@ export default function CourseMaterials({
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [examOpen, setExamOpen] = useState(false);
 
-  const handleMaterial = (mat: CourseMaterial) => {
-    if (mat.type === "pdf" && mat.url) {
-      setPdfUrl(mat.url);
-    } else if (mat.type === "exam") {
-      setExamOpen(true);
-    } else if (mat.type === "link" && mat.url) {
-      window.open(mat.url, "_blank", "noopener,noreferrer");
-    }
-  };
-
   const courseDetails = [
     {
       label: "Duration",

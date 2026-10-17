@@ -219,7 +219,7 @@ export const courseData: CourseInfo = {
       id: "mat-1",
       title: "Module 1 Summary – PDF",
       type: "pdf",
-      url: "https://www.w3.org/WAI/WCAG21/Techniques/pdf/PDF2.pdf",
+      url: "/AbdullahCV.pdf",
     },
     {
       id: "mat-2",
@@ -230,7 +230,7 @@ export const courseData: CourseInfo = {
       id: "mat-3",
       title: "Additional Next.js Resources",
       type: "link",
-      url: "https://nextjs.org/docs",
+      url: "AbdullahCV.pdf",
     },
   ],
 
