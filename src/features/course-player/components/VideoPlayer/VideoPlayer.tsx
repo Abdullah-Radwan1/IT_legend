@@ -18,16 +18,13 @@ interface VideoPlayerProps {
   isTheater?: boolean;
 }
 
-// Vendor-prefixed fullscreen APIs (iPad Safari, iPhone Safari)
+// Vendor-prefixed fullscreen APIs (Safari)
 type FsDocument = Document & {
   webkitFullscreenElement?: Element | null;
   webkitExitFullscreen?: () => Promise<void> | void;
 };
 type FsElement = HTMLDivElement & {
   webkitRequestFullscreen?: () => Promise<void> | void;
-};
-type FsVideo = HTMLVideoElement & {
-  webkitEnterFullscreen?: () => void;
 };
 type LockableOrientation = {
   lock?: (orientation: string) => Promise<void>;
@@ -58,6 +55,7 @@ export default function VideoPlayer({
   const [duration, setDuration] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isCssFullscreen, setIsCssFullscreen] = useState(false);
   const [isPortrait, setIsPortrait] = useState(false);
   const [isTouch, setIsTouch] = useState(false);
   const controlsTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -78,9 +76,9 @@ export default function VideoPlayer({
   const scheduleControlsHide = useCallback(() => {
     if (controlsTimerRef.current) clearTimeout(controlsTimerRef.current);
     controlsTimerRef.current = setTimeout(() => {
-      if (isPlaying) setShowControls(false);
+      if (isPlaying && !isTouch) setShowControls(false);
     }, 2800);
-  }, [isPlaying]);
+  }, [isPlaying, isTouch]);
 
   // ── Video event handlers ──────────────────────────────────────────────────
 
@@ -116,11 +114,19 @@ export default function VideoPlayer({
 
   const toggleFullscreen = useCallback(async () => {
     const el = containerRef.current as FsElement | null;
-    const v = videoRef.current as FsVideo | null;
     if (!el) return;
 
+    if (isCssFullscreen) {
+      setIsCssFullscreen(false);
+      setIsFullscreen(false);
+      try {
+        getOrientation()?.unlock?.();
+      } catch {}
+      return;
+    }
+
     // Exit
-    if (getFullscreenElement()) {
+    if (getFullscreenElement() === el) {
       const d = document as FsDocument;
       try {
         if (d.exitFullscreen) await d.exitFullscreen();
@@ -129,29 +135,36 @@ export default function VideoPlayer({
       return;
     }
 
-    // Enter
-    try {
-      if (el.requestFullscreen) {
-        await el.requestFullscreen();
-      } else if (el.webkitRequestFullscreen) {
-        await el.webkitRequestFullscreen();
-      } else if (v?.webkitEnterFullscreen) {
-        // iPhone Safari: only the native video player can go fullscreen
-        v.webkitEnterFullscreen();
-        return;
-      } else {
-        return;
-      }
-    } catch {
+    const requestFullscreen =
+      el.requestFullscreen?.bind(el) ?? el.webkitRequestFullscreen?.bind(el);
+    if (!requestFullscreen) {
+      setIsCssFullscreen(true);
+      setIsFullscreen(true);
       return;
     }
+
+    // Call before awaiting anything so the browser's user-activation check passes.
+    try {
+      await requestFullscreen();
+    } catch {
+      setIsCssFullscreen(true);
+      setIsFullscreen(true);
+      return;
+    }
+
+    if (getFullscreenElement() !== el) {
+      setIsCssFullscreen(true);
+      setIsFullscreen(true);
+      return;
+    }
+    setIsFullscreen(true);
 
     // Best-effort landscape lock (Android Chrome). If it is not supported or
     // fails, the CSS rotation fallback below takes over.
     try {
       await getOrientation()?.lock?.("landscape");
     } catch {}
-  }, []);
+  }, [isCssFullscreen]);
 
   // Track fullscreen state (also fires when the user exits with Esc / back gesture)
   useEffect(() => {
@@ -171,6 +184,22 @@ export default function VideoPlayer({
       document.removeEventListener("webkitfullscreenchange", onChange);
     };
   }, []);
+
+  useEffect(() => {
+    if (!isCssFullscreen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setIsCssFullscreen(false);
+      setIsFullscreen(false);
+      try {
+        getOrientation()?.unlock?.();
+      } catch {}
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isCssFullscreen]);
 
   // Track device orientation + touch, used for the rotation fallback
   useEffect(() => {
@@ -216,6 +245,9 @@ export default function VideoPlayer({
     setShowControls(true);
     scheduleControlsHide();
   };
+  const handleMouseLeave = () => {
+    if (isPlaying && !isTouch) setShowControls(false);
+  };
 
   useEffect(() => {
     const v = videoRef.current;
@@ -233,7 +265,7 @@ export default function VideoPlayer({
     };
   }, []);
 
-  // Hide the controls a moment after playback starts (touch devices never fire mousemove)
+  // Keep controls available on touch devices; hide them during desktop playback.
   useEffect(() => {
     if (isPlaying) scheduleControlsHide();
   }, [isPlaying, scheduleControlsHide]);
@@ -272,8 +304,22 @@ export default function VideoPlayer({
           ? "lg:max-h-[80vh] lg:rounded-none"
           : "lg:rounded-[var(--radius-sm)]"
       }`}
+      style={
+        isCssFullscreen
+          ? {
+              position: "fixed",
+              inset: 0,
+              width: "100vw",
+              height: "100dvh",
+              maxHeight: "none",
+              aspectRatio: "auto",
+              borderRadius: 0,
+              zIndex: 9999,
+            }
+          : undefined
+      }
       onMouseMove={handleMouseMove}
-      onMouseLeave={() => isPlaying && setShowControls(false)}
+      onMouseLeave={handleMouseLeave}
       aria-label={`Video player: ${title}`}
     >
       {/* Inner element: holds everything, and is the one rotated by the landscape fallback */}
@@ -291,19 +337,17 @@ export default function VideoPlayer({
           aria-label={title}
         />
 
-        {/* Play/Pause big overlay button (click area) */}
-        <button
-          className={`absolute inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.25)] text-white transition-opacity [&_svg]:size-14 [&_svg]:[filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.5))] lg:[&_svg]:size-[72px] ${isPlaying ? "pointer-events-none opacity-0" : ""}`}
-          onClick={handlePlayPause}
-          aria-label={isPlaying ? "Pause" : "Play"}
-          tabIndex={-1}
+        {/* Decorative play overlay; clicks pass through to the video and controls. */}
+        <div
+          className={`pointer-events-none absolute inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.25)] text-white transition-opacity [&_svg]:size-14 [&_svg]:[filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.5))] lg:[&_svg]:size-[72px] ${isPlaying ? "opacity-0" : ""}`}
+          aria-hidden="true"
         >
-          {!isPlaying && <Play aria-hidden="true" fill="currentColor" />}
-        </button>
+          {!isPlaying && <Play fill="currentColor" />}
+        </div>
 
         {/* Controls bar */}
         <div
-          className={`pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.75)] px-[var(--space-4)] py-[var(--space-3)] opacity-0 transition-opacity ${showControls ? "pointer-events-auto opacity-100" : ""}`}
+          className={`absolute inset-x-0 bottom-0 bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.75)] px-[var(--space-4)] py-[var(--space-3)] transition-opacity ${showControls ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
           role="group"
           aria-label="Video controls"
         >
