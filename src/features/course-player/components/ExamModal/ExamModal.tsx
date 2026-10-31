@@ -120,22 +120,32 @@ export default function ExamModal({ exam, onClose }: ExamModalProps) {
   }, [exam.id]);
 
   const handleClose = useCallback(() => {
-    if (!submitted && selected && answerTimeoutRef.current) {
-      clearTimeout(answerTimeoutRef.current);
-      answerTimeoutRef.current = null;
+    if (!submitted) {
+      const pendingAnswerTimeout = answerTimeoutRef.current;
+      const hasPendingAnswer =
+        selected !== null && pendingAnswerTimeout !== null;
+      if (hasPendingAnswer) {
+        clearTimeout(pendingAnswerTimeout);
+        answerTimeoutRef.current = null;
+      }
 
-      if (isLast) {
+      if (hasPendingAnswer && isLast) {
         finishExam();
       } else {
         try {
           sessionStorage.setItem(
             STORAGE_KEY_ANSWERS(exam.id),
-            JSON.stringify({ ...answers, [currentQuestion.id]: selected }),
+            JSON.stringify(
+              hasPendingAnswer
+                ? { ...answers, [currentQuestion.id]: selected }
+                : answers,
+            ),
           );
           sessionStorage.setItem(
             STORAGE_KEY_QUESTION(exam.id),
-            String(currentIdx + 1),
+            String(currentIdx + (hasPendingAnswer ? 1 : 0)),
           );
+          sessionStorage.setItem(STORAGE_KEY_END_TIME(exam.id), String(endTime));
         } catch {}
       }
     }
@@ -145,6 +155,7 @@ export default function ExamModal({ exam, onClose }: ExamModalProps) {
     answers,
     currentIdx,
     currentQuestion.id,
+    endTime,
     exam.id,
     finishExam,
     isLast,
@@ -152,7 +163,10 @@ export default function ExamModal({ exam, onClose }: ExamModalProps) {
     selected,
     submitted,
   ]);
-  handleCloseRef.current = handleClose;
+
+  useEffect(() => {
+    handleCloseRef.current = handleClose;
+  }, [handleClose]);
 
   // Countdown tick
   useEffect(() => {
