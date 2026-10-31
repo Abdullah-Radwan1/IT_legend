@@ -76,10 +76,10 @@ export default function LeaderboardModal({
         role="dialog"
         aria-modal="true"
         aria-label="Leaderboard"
-        className="flex max-h-[90vh] w-[min(96vw,480px)] m-2 flex-col overflow-hidden rounded-[var(--radius-lg)] bg-surface-card shadow-[var(--shadow-modal)] animate-[slideUp_var(--transition-base)_both]"
+        className="flex max-h-[90vh] w-[min(96vw,480px)] m-2 flex-col overflow-hidden rounded-lg bg-surface-card shadow-(--shadow-modal) animate-[slideUp_var(--transition-base)_both]"
       >
         {/* Header */}
-        <div className="flex shrink-0 items-center justify-between px-6 py-4 border-b border-border-light text-center">
+        <div className="  flex justify-evenly py-4  ">
           <div className="flex flex-col items-center flex-1 gap-0.5">
             <span className="text-lg font-light text-brand-primary">
               {courseName}
@@ -88,29 +88,11 @@ export default function LeaderboardModal({
               Leaderboard
             </span>
           </div>
-
-          <button
-            ref={closeRef}
-            onClick={onClose}
-            aria-label="Close"
-            className="flex size-9 items-center justify-center rounded-[var(--radius-md)] text-white/80 transition-colors hover:bg-white/15 hover:text-white [&_svg]:size-5"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              aria-hidden="true"
-            >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
         </div>
 
         {/* Motivational message */}
-        <div className="shrink-0 px-6 py-3 text-center" aria-live="polite">
-          <p className="text-base font-medium leading-[1.7] text-brand-accent bg-bg-light rounded p-2 my-6">
+        <div className="shrink-0 px-6  text-center" aria-live="polite">
+          <p className="text-base font-medium leading-[1.7] text-brand-accent bg-bg-light rounded p-2 my-4">
             {motivMessage} 💪
           </p>
         </div>

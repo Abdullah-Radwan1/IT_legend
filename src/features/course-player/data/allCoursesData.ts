@@ -5,8 +5,7 @@ import { courseData, motivationalMessages } from "./courseData";
 
 const sharedMotivational: MotivationalMessage[] = motivationalMessages;
 
-const sampleVideo =
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+const sampleVideo = "/test.mp4";
 
 const sharedLeaderboard: CourseInfo["leaderboard"] = [
   { rank: 1, name: "Alex Morgan", score: 980, isCurrentStudent: false },

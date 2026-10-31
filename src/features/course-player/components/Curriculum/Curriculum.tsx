@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { CurriculumSection } from "../../models";
 import ProgressTracker from "../ProgressTracker/ProgressTracker";
-import { FileText, CircleHelp, Lock, ChevronDown, Minus } from "lucide-react";
+import { FileText, CircleHelp, Lock, Minus, Plus } from "lucide-react";
 
 interface CurriculumProps {
   sections: CurriculumSection[];
@@ -66,12 +66,18 @@ export default function Curriculum({
                     {section.title}
                   </h3>
                 </div>
-                <Minus
-                  className={`size-5 transition-transform duration-200 ${
-                    isExpanded ? "rotate-180" : ""
-                  }`}
-                  aria-hidden="true"
-                />
+                <span className="relative size-5 shrink-0" aria-hidden="true">
+                  <Minus
+                    className={`absolute inset-0 size-5 transition-opacity duration-200 ${
+                      isExpanded ? "opacity-100" : "opacity-0"
+                    }`}
+                  />
+                  <Plus
+                    className={`absolute inset-0 size-5 transition-opacity duration-200 ${
+                      isExpanded ? "opacity-0" : "opacity-100"
+                    }`}
+                  />
+                </span>
               </button>
 
               {/* Gray description */}
@@ -80,100 +86,110 @@ export default function Curriculum({
               </p>
 
               {/* Collapsible Lessons List */}
-              {isExpanded && (
-                <ul className="flex flex-col gap-2 pb-6" role="list">
-                  {section.lessons.map((lesson) => {
-                    const isLocked = lesson.status === "locked";
-                    const isCurrent = lesson.status === "current";
-                    const isPdf = lesson.type === "pdf";
-                    const isQuiz = lesson.type === "quiz";
-                    const isModalLesson = isPdf || isQuiz;
+              <div
+                className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
+                  isExpanded
+                    ? "grid-rows-[1fr] opacity-100"
+                    : "grid-rows-[0fr] opacity-0"
+                }`}
+                aria-hidden={!isExpanded}
+                inert={!isExpanded}
+              >
+                <div className="min-h-0 overflow-hidden">
+                  <ul className="flex flex-col gap-2 pb-6" role="list">
+                    {section.lessons.map((lesson) => {
+                      const isLocked = lesson.status === "locked";
+                      const isCurrent = lesson.status === "current";
+                      const isPdf = lesson.type === "pdf";
+                      const isQuiz = lesson.type === "quiz";
+                      const isModalLesson = isPdf || isQuiz;
 
-                    const lessonContent = (
-                      <>
-                        {/* Left: Icon and lesson title */}
-                        <span className="flex min-w-0 items-center gap-3">
-                          <span className="shrink-0" aria-hidden="true">
-                            {isPdf ? (
-                              <FileText className="size-5" />
-                            ) : isQuiz ? (
-                              <CircleHelp className="size-5" />
-                            ) : (
-                              <span className="text-sm">▶</span>
+                      const lessonContent = (
+                        <>
+                          {/* Left: Icon and lesson title */}
+                          <span className="flex min-w-0 items-center gap-3">
+                            <span className="shrink-0" aria-hidden="true">
+                              {isPdf ? (
+                                <FileText className="size-5" />
+                              ) : isQuiz ? (
+                                <CircleHelp className="size-5" />
+                              ) : (
+                                <span className="text-sm">▶</span>
+                              )}
+                            </span>
+
+                            <span
+                              className={`min-w-0 font-sans text-sm leading-snug ${
+                                isCurrent ? "font-bold" : "font-medium"
+                              }`}
+                            >
+                              {lesson.title}
+                            </span>
+                          </span>
+
+                          {/* Right: Question count and duration */}
+                          <span className="ml-auto flex flex-1 flex-wrap items-center justify-end gap-2">
+                            {isQuiz && lesson.questionCount != null && (
+                              <span className="rounded bg-green-100 px-2 py-0.5 text-sm font-medium text-green-700">
+                                {lesson.questionCount} QUESTIONS
+                              </span>
+                            )}
+
+                            {lesson.duration && (
+                              <span className="whitespace-nowrap rounded bg-red-100 px-2 py-0.5 text-sm font-medium text-time">
+                                {lesson.duration}
+                              </span>
                             )}
                           </span>
 
-                          <span
-                            className={`min-w-0 font-sans text-sm leading-snug ${
-                              isCurrent ? "font-bold" : "font-medium"
-                            }`}
-                          >
-                            {lesson.title}
-                          </span>
-                        </span>
-
-                        {/* Right: Question count and duration */}
-                        <span className="ml-auto flex flex-1 flex-wrap items-center justify-end gap-2">
-                          {isQuiz && lesson.questionCount != null && (
-                            <span className="rounded bg-green-100 px-2 py-0.5 text-sm font-medium text-green-700">
-                              {lesson.questionCount} QUESTIONS
+                          {/* Lock: exclude quiz items */}
+                          {isLocked && !isQuiz && (
+                            <span
+                              className="shrink-0"
+                              aria-label="Locked"
+                              title="Locked"
+                            >
+                              <Lock className="size-4" aria-hidden="true" />
                             </span>
                           )}
+                        </>
+                      );
 
-                          {lesson.duration && (
-                            <span className="whitespace-nowrap rounded bg-red-100 px-2 py-0.5 text-sm font-medium text-time">
-                              {lesson.duration}
-                            </span>
+                      return (
+                        <li
+                          key={lesson.id}
+                          aria-current={isCurrent ? "page" : undefined}
+                          className={`min-w-0 border-t border-gray-200 py-3 transition-colors ${
+                            isCurrent
+                              ? "border-s-brand-primary bg-brand-primary/4 text-foreground"
+                              : "text-muted"
+                          }`}
+                        >
+                          {isModalLesson ? (
+                            <button
+                              type="button"
+                              onClick={isQuiz ? onOpenExam : onOpenPdf}
+                              disabled={isPdf && !onOpenPdf}
+                              aria-label={`${lesson.title} open ${
+                                isQuiz ? "exam" : "PDF"
+                              }`}
+                              className={`flex w-full min-w-0 items-center gap-3 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary ${
+                                isQuiz ? "items-start" : ""
+                              } disabled:cursor-not-allowed disabled:opacity-60`}
+                            >
+                              {lessonContent}
+                            </button>
+                          ) : (
+                            <div className="flex min-w-0 items-center gap-3">
+                              {lessonContent}
+                            </div>
                           )}
-                        </span>
-
-                        {/* Lock: exclude quiz items */}
-                        {isLocked && !isQuiz && (
-                          <span
-                            className="shrink-0"
-                            aria-label="Locked"
-                            title="Locked"
-                          >
-                            <Lock className="size-4" aria-hidden="true" />
-                          </span>
-                        )}
-                      </>
-                    );
-
-                    return (
-                      <li
-                        key={lesson.id}
-                        aria-current={isCurrent ? "page" : undefined}
-                        className={`min-w-0 border-t border-gray-200 py-3 transition-colors ${
-                          isCurrent
-                            ? "border-s-brand-primary bg-brand-primary/4 text-foreground"
-                            : "text-muted"
-                        }`}
-                      >
-                        {isModalLesson ? (
-                          <button
-                            type="button"
-                            onClick={isQuiz ? onOpenExam : onOpenPdf}
-                            disabled={isPdf && !onOpenPdf}
-                            aria-label={`${lesson.title} open ${
-                              isQuiz ? "exam" : "PDF"
-                            }`}
-                            className={`flex w-full min-w-0 items-center gap-3 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary ${
-                              isQuiz ? "items-start" : ""
-                            } disabled:cursor-not-allowed disabled:opacity-60`}
-                          >
-                            {lessonContent}
-                          </button>
-                        ) : (
-                          <div className="flex min-w-0 items-center gap-3">
-                            {lessonContent}
-                          </div>
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </div>
             </section>
           );
         })}

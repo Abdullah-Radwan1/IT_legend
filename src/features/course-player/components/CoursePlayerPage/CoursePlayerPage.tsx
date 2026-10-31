@@ -30,7 +30,7 @@ export default function CoursePlayerPage({
     { type: "pdf"; url: string } | { type: "exam" } | null
   >(null);
   const pdfUrl = data.materials.find(
-    (material) => material.type === "pdf" && material.url
+    (material) => material.type === "pdf" && material.url,
   )?.url;
 
   return (
@@ -42,17 +42,24 @@ export default function CoursePlayerPage({
         <h1 className="text-5xl font-medium py-2">{data.title}</h1>
       </header>
       {/* ── Main content ──────────────────────────────────────────────────── */}
-      <main className="min-h-dvh lg:px-12 px-8 py-6">
+      <main className="min-h-dvh lg:px-12 px-4 py-6">
         {/* Breadcrumb – only shown when provided */}
 
+        {/*
+          On mobile, the left wrapper and the player <section> use `contents`
+          so their boxes disappear. The sticky player's containing block then
+          becomes this outer container (which includes the curriculum), so it
+          stays pinned for the whole page. `max-lg:gap-6` replaces the gap
+          that the left wrapper provided.
+        */}
         <div
-          className={`flex flex-col lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-start lg:gap-x-8 ${
+          className={`flex flex-col max-lg:gap-6 lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-start lg:gap-x-8 ${
             isTheater ? "lg:grid-cols-1!" : ""
           }`}
         >
           {/* left side  */}
-          <div className="flex min-w-0 flex-col gap-6">
-            <section aria-label="Course player">
+          <div className="flex min-w-0 flex-col gap-6 max-lg:contents">
+            <section aria-label="Course player" className="max-lg:contents">
               <VideoPlayer
                 src={data.videoSrc}
                 title={data.title}
@@ -99,16 +106,10 @@ export default function CoursePlayerPage({
         />
       )}
       {activeModal?.type === "pdf" && (
-        <PdfModal
-          url={activeModal.url}
-          onClose={() => setActiveModal(null)}
-        />
+        <PdfModal url={activeModal.url} onClose={() => setActiveModal(null)} />
       )}
       {activeModal?.type === "exam" && (
-        <ExamModal
-          exam={data.exam}
-          onClose={() => setActiveModal(null)}
-        />
+        <ExamModal exam={data.exam} onClose={() => setActiveModal(null)} />
       )}
     </>
   );

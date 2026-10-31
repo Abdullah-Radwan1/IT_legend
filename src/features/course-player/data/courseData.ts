@@ -38,9 +38,7 @@ export const courseData: CourseInfo = {
   title: "Learn Next.js: From Beginner to Pro",
   instructor: "Ali Shaheen",
 
-  // Use a freely available Big Buck Bunny sample clip
-  videoSrc:
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+  videoSrc: "/test.mp4",
 
   details: {
     duration: "12 hours",
@@ -62,7 +60,7 @@ export const courseData: CourseInfo = {
   curriculum: [
     {
       id: "sec-1",
-      title: "Week 1–4",
+      title: "Week 1-4",
       description: "Introduction to the course and its key concepts.",
       lessons: [
         {
@@ -112,7 +110,7 @@ export const courseData: CourseInfo = {
     },
     {
       id: "sec-2",
-      title: "Week 5–8",
+      title: "Week 5-8",
       description:
         "Advanced storytelling techniques for writers: personas, characters, and plots.",
       lessons: [
@@ -163,7 +161,7 @@ export const courseData: CourseInfo = {
     },
     {
       id: "sec-3",
-      title: "Week 5–8",
+      title: "Week 5-8",
       description:
         "Advanced storytelling techniques for writers: personas, characters, and plots.",
       lessons: [
